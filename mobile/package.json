@@ -9,7 +9,8 @@
     "build": "ng build",
     "lint": "eslint \"src/**/*.ts\"",
     "pretest": "npm run config",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "npm run config && ng test --watch=false --browsers=ChromeHeadless"
   },
   "dependencies": {
     "@angular/animations": "21.2.19",

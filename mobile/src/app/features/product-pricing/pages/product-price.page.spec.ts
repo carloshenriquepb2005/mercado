@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, NavigationEnd, Router } from '@angular/router';
 import { provideIonicAngular, ToastController } from '@ionic/angular/standalone';
 import { of, Subject } from 'rxjs';
@@ -43,13 +43,14 @@ describe('ProductPricePage', () => {
     expect(fixture.componentInstance.loading()).toBeFalse();
   });
 
-  it('valida o preço e atualiza pelo ID correto', () => {
+  it('valida o preço e atualiza pelo ID correto', fakeAsync(() => {
     const page = TestBed.createComponent(ProductPricePage).componentInstance;
     page.ngOnInit();
     page.form.controls.novoPreco.setValue('10,50');
     page.save();
+    flushMicrotasks();
     expect(api.atualizarPreco).toHaveBeenCalledOnceWith(15, 10.5);
-  });
+  }));
 
   it('bloqueia envio duplo enquanto a primeira requisição está ativa', () => {
     const pending = new Subject<void>();

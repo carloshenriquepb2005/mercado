@@ -1,6 +1,6 @@
 # App Satélite de Precificação
 
-Aplicação interna para consultar produtos por código de barras e alterar exclusivamente o preço de venda no MySQL legado. O celular comunica-se com uma API Spring Boot pela rede Wi-Fi local; o aplicativo nunca acessa o banco diretamente.
+Aplicação interna com login, Home operacional, leitura de código de barras, consulta de produtos e alteração exclusiva do preço de venda no MySQL legado. O celular comunica-se com uma API Spring Boot pela rede Wi-Fi local; o aplicativo nunca acessa o banco diretamente.
 
 ## Estrutura
 
@@ -23,6 +23,8 @@ Copie `env.example` para `.env` e substitua os exemplos. O backend carrega autom
 
 O build mobile executa `mobile/scripts/generate-environment.mjs` e usa `MOBILE_API_URL`. Sem essa variável, usa `http://localhost:8080`, adequado apenas ao navegador local.
 
+O login consulta somente a tabela legada `usuarios`, usando os campos `codigo`, `nome`, `senha` e `perfil`. A senha é comparada em texto puro, conforme o requisito atual, e nunca é colocada no código do aplicativo. Os perfis 1 (usuário), 2 (gerencial) e 3 (administrador) possuem o mesmo acesso nesta versão. Como a API local usa HTTP, esse login é apropriado somente para a rede interna confiável; para acesso externo, utilize HTTPS e autenticação com sessão/token.
+
 ## Executar e validar
 
 ```powershell
@@ -34,11 +36,13 @@ mvn spring-boot:run
 Swagger: `http://localhost:8080/swagger-ui.html`  
 Health check: `http://localhost:8080/actuator/health`
 
+Ao abrir o aplicativo, faça login com o `nome` e a `senha` existentes na tabela `usuarios`. A Home mostra a conectividade e encaminha para o scanner. Depois de salvar um preço, a tela de Sucesso exibe produto, código, preço anterior e novo preço.
+
 ```powershell
 cd mobile
 npm install
 npm run lint
-npm test -- --watch=false
+npm run test:ci
 npm run build
 npx cap sync android
 ```
@@ -176,6 +180,6 @@ Verifique nesta ordem:
 
 ## Limites e segurança do legado
 
-Não há endpoints para criar, substituir ou excluir produtos. A atualização usa uma query explícita que modifica apenas `PRECO_UNITARIO` pelo `ID`. Hibernate está com `ddl-auto: none`; não há migrations. Credenciais, SQL interno e stack traces não são enviados ao aplicativo.
+Não há endpoints para criar, substituir ou excluir produtos ou usuários. A atualização usa uma query explícita que modifica apenas `PRECO_UNITARIO` pelo `ID`; o acesso a `usuarios` é somente leitura. Hibernate está com `ddl-auto: none`; não há migrations. Senha, SQL interno e stack traces não são enviados ao aplicativo.
 
 Consulte [arquitetura](docs/arquitetura.md), [API](docs/api.md), [implantação](docs/implantacao.md) e [testes](docs/testes.md).

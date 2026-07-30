@@ -1,0 +1,17 @@
+:host { display: block; height: calc(68px + env(safe-area-inset-bottom)); }
+.bottom-navigation {
+  position: fixed; z-index: 30; right: 0; bottom: 0; left: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+  padding: 7px 12px calc(7px + env(safe-area-inset-bottom));
+  border-radius: 16px 16px 0 0; background: #fff;
+  box-shadow: 0 -3px 14px rgb(24 29 27 / 8%);
+}
+button {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  min-height: 48px; padding: 4px 8px; border: 0; border-radius: 12px;
+  background: transparent; color: var(--app-on-surface-variant); text-decoration: none;
+  font: 600 11px/14px var(--ion-font-family);
+}
+button.active { background: #00796b; color: #fff; opacity: 1; }
+button:disabled { opacity: .48; }
+ion-icon { font-size: 23px; }

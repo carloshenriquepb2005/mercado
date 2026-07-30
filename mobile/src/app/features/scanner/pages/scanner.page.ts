@@ -13,12 +13,14 @@ import {
   ToastController
 } from '@ionic/angular/standalone';
 import { ConnectivityService } from '../../../core/services/connectivity.service';
+import { BottomNavigationComponent } from '../../../shared/components/bottom-navigation/bottom-navigation.component';
 import { BarcodeScannerService, ScannerPermissionDeniedError } from '../services/barcode-scanner.service';
 
 @Component({
   selector: 'app-scanner-page',
   standalone: true,
-  imports: [IonButton, IonButtons, IonContent, IonHeader, IonSpinner, IonTitle, IonToolbar],
+  imports: [IonButton, IonButtons, IonContent, IonHeader, IonSpinner, IonTitle, IonToolbar,
+    BottomNavigationComponent],
   templateUrl: './scanner.page.html',
   styleUrl: './scanner.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,5 +1,11 @@
 # API
 
+## `POST /api/auth/login`
+
+Corpo: `{ "username": "Carlos", "password": "senha" }`. Valida `username` contra `usuarios.nome` e `password` contra `usuarios.senha`, retornando `codigo`, `username`, `displayName` e `perfil`. Os perfis 1, 2 e 3 são aceitos sem distinção. Campos inválidos retornam `400`; credenciais incorretas retornam `401` com o código `CREDENCIAIS_INVALIDAS`.
+
+O requisito atual usa comparação simples, sem hash. A senha não é devolvida pela API, e não existem endpoints para cadastrar ou alterar usuários.
+
 ## `GET /api/produtos/{ean}`
 
 Retorna `200` com `id`, `codigoBarras`, `descricao` e `precoVenda`. Retorna `400` para código inválido e `404` quando principal/similar não forem encontrados.
@@ -9,4 +15,3 @@ Retorna `200` com `id`, `codigoBarras`, `descricao` e `precoVenda`. Retorna `400
 Corpo: `{ "novoPreco": 10.50 }`. Atualiza apenas `PRECO_UNITARIO` pelo ID e retorna `204`. ID/preço inválidos retornam `400`; produto inexistente retorna `404`.
 
 Erros seguem o contrato `timestamp`, `status`, `error`, `code`, `message` e `path`. Indisponibilidade de banco retorna `503`. A documentação interativa fica em `/swagger-ui.html`.
-

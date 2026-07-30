@@ -12,19 +12,6 @@
         <ion-spinner name="crescent" color="primary" />
         <p>Consultando produto…</p>
       </section>
-    } @else if (success() && product(); as savedProduct) {
-      <section class="success-state" aria-live="polite">
-        <div class="success-check">✓</div>
-        <p class="eyebrow">ALTERAÇÃO CONCLUÍDA</p>
-        <h1>Preço atualizado com sucesso!</h1>
-        <div class="success-summary">
-          <strong>{{ savedProduct.descricao }}</strong>
-          <span>{{ savedProduct.codigoBarras }}</span>
-          <div><small>Preço anterior</small><del>{{ formatPrice(previousPrice()) }}</del></div>
-          <div><small>Novo preço</small><b>{{ formatPrice(savedProduct.precoVenda) }}</b></div>
-        </div>
-        <p>Voltando ao scanner…</p>
-      </section>
     } @else if (product(); as currentProduct) {
       <section class="product-card">
         <div class="product-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
@@ -81,4 +68,3 @@
     }
   </main>
 </ion-content>
-

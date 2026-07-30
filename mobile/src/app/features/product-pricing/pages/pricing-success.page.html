@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar class="app-toolbar"><ion-title>Precificação</ion-title></ion-toolbar>
+</ion-header>
+
+<ion-content class="page-content">
+  <main class="success-shell">
+    <div class="success-icon" aria-hidden="true">✓<span></span></div>
+    <section class="success-copy" aria-live="polite">
+      <h1>Preço atualizado com sucesso!</h1>
+      <p>O novo valor já está disponível no sistema.</p>
+    </section>
+
+    @if (success.data(); as data) {
+      <section class="summary-card">
+        <div class="product-row">
+          <div class="barcode-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div><h2>{{ data.description }}</h2><p>Cód: {{ data.barcode }}</p></div>
+        </div>
+        <div class="prices">
+          <div><small>Preço anterior</small><del>{{ formatPrice(data.previousPrice) }}</del></div>
+          <div><small>Novo preço</small><strong>{{ formatPrice(data.newPrice) }}</strong></div>
+        </div>
+      </section>
+    } @else {
+      <section class="summary-card empty"><p>A alteração foi concluída.</p></section>
+    }
+
+    <section class="success-actions">
+      <button class="primary-button" type="button" (click)="scanAnother()"><span aria-hidden="true">▦</span> Escanear outro produto</button>
+      <button class="outline-button" type="button" (click)="goHome()"><span aria-hidden="true">⌂</span> Voltar para Home</button>
+    </section>
+  </main>
+  <app-bottom-navigation active="scanner" />
+</ion-content>

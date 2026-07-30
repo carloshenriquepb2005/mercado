@@ -17,6 +17,7 @@ describe('appErrorInterceptor', () => {
   for (const [status, expected] of [
     [0, 'Não foi possível conectar ao servidor.'],
     [400, 'Confira os dados informados e tente novamente.'],
+    [401, 'Usuário ou senha inválidos.'],
     [404, 'Produto não encontrado.'],
     [500, 'Ocorreu um erro inesperado.'],
     [503, 'Servidor ou banco de dados indisponível.']

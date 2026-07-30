@@ -2,6 +2,7 @@ package br.com.mercado.precificacao.infrastructure.exception;
 
 import br.com.mercado.precificacao.adapter.in.web.response.ApiErrorResponse;
 import br.com.mercado.precificacao.domain.exception.CodigoBarrasInvalidoException;
+import br.com.mercado.precificacao.domain.exception.CredenciaisInvalidasException;
 import br.com.mercado.precificacao.domain.exception.PrecoInvalidoException;
 import br.com.mercado.precificacao.domain.exception.ProdutoNaoEncontradoException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,12 @@ import java.time.ZoneId;
 public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private static final ZoneId ZONE = ZoneId.of("America/Sao_Paulo");
+
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    ResponseEntity<ApiErrorResponse> handleUnauthorized(CredenciaisInvalidasException exception,
+                                                        HttpServletRequest request) {
+        return error(HttpStatus.UNAUTHORIZED, "CREDENCIAIS_INVALIDAS", exception.getMessage(), request);
+    }
 
     @ExceptionHandler(ProdutoNaoEncontradoException.class)
     ResponseEntity<ApiErrorResponse> handleNotFound(ProdutoNaoEncontradoException exception,

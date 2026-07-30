@@ -19,6 +19,7 @@ import { AppError } from '../../../core/models/app-error';
 import { priceValidator } from '../../../shared/validators/price.validator';
 import { ProdutoApiService } from '../data-access/produto-api.service';
 import type { ProdutoResponse } from '../models/produto-response';
+import { PricingSuccessService } from '../services/pricing-success.service';
 
 @Component({
   selector: 'app-product-price-page',
@@ -34,12 +35,12 @@ export class ProductPricePage implements OnInit {
   private readonly router = inject(Router);
   private readonly api = inject(ProdutoApiService);
   private readonly toasts = inject(ToastController);
+  private readonly pricingSuccess = inject(PricingSuccessService);
 
   readonly product = signal<ProdutoResponse | null>(null);
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly errorMessage = signal('');
-  readonly success = signal(false);
   readonly previousPrice = signal(0);
 
   readonly form = new FormGroup({
@@ -112,8 +113,12 @@ export class ProductPricePage implements OnInit {
   }
 
   private async showSuccess(product: ProdutoResponse, newPrice: number): Promise<void> {
-    this.product.set({ ...product, precoVenda: newPrice });
-    this.success.set(true);
+    this.pricingSuccess.set({
+      description: product.descricao,
+      barcode: product.codigoBarras,
+      previousPrice: this.previousPrice(),
+      newPrice
+    });
     const toast = await this.toasts.create({
       message: 'Preço atualizado com sucesso.',
       duration: 1800,
@@ -121,7 +126,7 @@ export class ProductPricePage implements OnInit {
       color: 'primary'
     });
     await toast.present();
-    setTimeout(() => void this.router.navigateByUrl('/scanner'), 1400);
+    await this.router.navigateByUrl('/sucesso');
   }
 
   private messageFrom(error: unknown): string {

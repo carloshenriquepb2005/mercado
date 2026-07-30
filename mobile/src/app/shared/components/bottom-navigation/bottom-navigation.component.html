@@ -1,0 +1,14 @@
+<nav class="bottom-navigation" aria-label="Navegação principal">
+  <button type="button" (click)="goTo('/home')" [class.active]="active() === 'home'" aria-label="Início">
+    <ion-icon name="home" /><span>Início</span>
+  </button>
+  <button type="button" (click)="goTo('/scanner')" [class.active]="active() === 'scanner'" aria-label="Scanner">
+    <ion-icon name="barcode-outline" /><span>Scanner</span>
+  </button>
+  <button type="button" disabled aria-label="Etiquetas, em breve">
+    <ion-icon name="pricetag-outline" /><span>Etiquetas</span>
+  </button>
+  <button type="button" disabled aria-label="Ajustes, em breve">
+    <ion-icon name="settings-outline" /><span>Ajustes</span>
+  </button>
+</nav>
