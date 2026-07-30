@@ -1,0 +1,6 @@
+{
+  "name": "app-precificacao-mobile",
+  "integrations": { "capacitor": {} },
+  "type": "angular-standalone"
+}
+

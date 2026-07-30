@@ -1,0 +1,4 @@
+logging:
+  level:
+    br.com.mercado.precificacao: DEBUG
+

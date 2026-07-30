@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar class="app-toolbar">
+    <ion-title>Precificação</ion-title>
+    <ion-buttons slot="end">
+      <span class="connection-dot" [class.online]="connectivity.state() === 'online'" aria-hidden="true"></span>
+      <span class="connection-label">
+        {{ connectivity.state() === 'online' ? 'Online' : connectivity.state() === 'checking' ? 'Verificando' : 'Offline' }}
+      </span>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-content">
+  <main class="page-shell scanner-shell">
+    @if (connectivity.state() === 'checking') {
+      <section class="state-card" aria-live="polite">
+        <ion-spinner name="crescent" color="primary" />
+        <h1>Conectando ao servidor</h1>
+        <p>Verificando a API na rede local da loja.</p>
+      </section>
+    } @else if (connectivity.state() === 'offline') {
+      <section class="state-card offline" aria-live="assertive">
+        <div class="state-icon">!</div>
+        <h1>Servidor indisponível</h1>
+        <p>Confira o Wi-Fi da loja e se o servidor de precificação está ligado.</p>
+        <div class="info-strip"><span></span>Não foi possível acessar a API local.</div>
+        <ion-button class="primary-action" expand="block" (click)="retryConnection()">Tentar novamente</ion-button>
+      </section>
+    } @else {
+      <section class="scanner-intro">
+        <p class="eyebrow">LEITOR DE PRODUTOS</p>
+        <h1>Escaneie o código de barras</h1>
+        <p>Aponte a câmera para o EAN impresso na embalagem.</p>
+      </section>
+
+      <div class="scanner-frame" aria-hidden="true">
+        <span class="corner top-left"></span><span class="corner top-right"></span>
+        <span class="corner bottom-left"></span><span class="corner bottom-right"></span>
+        <div class="barcode-bars"></div>
+        <div class="scan-line"></div>
+      </div>
+
+      <section class="actions">
+        <ion-button class="primary-action" expand="block" [disabled]="scanning()" (click)="startScan()">
+          @if (scanning()) { <ion-spinner name="crescent" /> } @else { Escanear produto }
+        </ion-button>
+        <ion-button class="secondary-action" fill="outline" expand="block" [disabled]="scanning()" (click)="enterManually()">
+          Digitar código manualmente
+        </ion-button>
+        <p class="privacy-note">A câmera é usada somente durante a leitura.</p>
+      </section>
+    }
+  </main>
+</ion-content>
+

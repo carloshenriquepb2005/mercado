@@ -1,0 +1,12 @@
+package br.com.mercado.precificacao;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class PrecificacaoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(PrecificacaoApplication.class, args);
+    }
+}
+
