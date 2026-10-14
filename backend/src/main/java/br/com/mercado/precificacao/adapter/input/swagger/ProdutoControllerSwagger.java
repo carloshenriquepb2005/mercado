@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 
 public interface ProdutoControllerSwagger {
@@ -36,5 +38,7 @@ public interface ProdutoControllerSwagger {
             @ApiResponse(responseCode = "503", description = "Banco indisponível",
                     content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
     })
-    ResponseEntity<Void> atualizar(Long id, AtualizarPrecoRequest request);
+    ResponseEntity<Void> atualizar(
+            @Positive(message = "O ID do produto deve ser positivo.") Long id,
+            @Valid AtualizarPrecoRequest request);
 }

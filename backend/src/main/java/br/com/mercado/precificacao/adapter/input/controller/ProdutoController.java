@@ -6,8 +6,6 @@ import br.com.mercado.precificacao.adapter.input.response.ProdutoResponse;
 import br.com.mercado.precificacao.adapter.input.swagger.ProdutoControllerSwagger;
 import br.com.mercado.precificacao.port.input.AtualizarPrecoProdutoInputPort;
 import br.com.mercado.precificacao.port.input.BuscarProdutoPorCodigoInputPort;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +40,8 @@ public class ProdutoController implements ProdutoControllerSwagger {
     @Override
     @PatchMapping("/{id}")
     public ResponseEntity<Void> atualizar(
-            @PathVariable @Positive(message = "O ID do produto deve ser positivo.") Long id,
-            @Valid @RequestBody AtualizarPrecoRequest request) {
+            @PathVariable Long id,
+            @RequestBody AtualizarPrecoRequest request) {
         atualizarPrecoInputPort.executar(id, request.novoPreco());
         return ResponseEntity.noContent().build();
     }

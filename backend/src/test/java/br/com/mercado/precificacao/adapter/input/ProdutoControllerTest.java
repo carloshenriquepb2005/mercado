@@ -3,11 +3,14 @@ package br.com.mercado.precificacao.adapter.input;
 import br.com.mercado.precificacao.adapter.exception.GlobalExceptionHandler;
 import br.com.mercado.precificacao.adapter.input.controller.ProdutoController;
 import br.com.mercado.precificacao.adapter.input.mapper.ProdutoInputMapper;
+import br.com.mercado.precificacao.adapter.input.request.AtualizarPrecoRequest;
 import br.com.mercado.precificacao.core.exception.CodigoBarrasInvalidoException;
 import br.com.mercado.precificacao.core.exception.ProdutoNaoEncontradoException;
 import br.com.mercado.precificacao.core.model.Produto;
 import br.com.mercado.precificacao.port.input.AtualizarPrecoProdutoInputPort;
 import br.com.mercado.precificacao.port.input.BuscarProdutoPorCodigoInputPort;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -15,7 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
+import java.lang.reflect.Method;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
@@ -99,5 +104,22 @@ class ProdutoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"novoPreco\":10.50}"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void validacaoDeMetodoDeveSerCompativelComInterfaceSwagger() throws Exception {
+        ProdutoController controller = new ProdutoController(buscar, atualizar, new ProdutoInputMapper());
+        Method buscarMethod = ProdutoController.class.getMethod("buscar", String.class);
+        Method atualizarMethod = ProdutoController.class.getMethod(
+                "atualizar", Long.class, AtualizarPrecoRequest.class);
+
+        try (var validatorFactory = Validation.buildDefaultValidatorFactory()) {
+            Validator validator = validatorFactory.getValidator();
+            validator.forExecutables().validateParameters(controller, buscarMethod, new Object[]{"7898080640413"});
+
+            var violations = validator.forExecutables().validateParameters(
+                    controller, atualizarMethod, new Object[]{0L, new AtualizarPrecoRequest(null)});
+            assertEquals(2, violations.size());
+        }
     }
 }
