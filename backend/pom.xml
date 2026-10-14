@@ -81,14 +81,17 @@
                         <goals><goal>report</goal><goal>check</goal></goals>
                         <configuration>
                             <excludes>
-                                <exclude>**/PrecificacaoApplication.class</exclude>
-                                <exclude>**/infrastructure/config/**</exclude>
-                                <exclude>**/infrastructure/health/**</exclude>
-                                <exclude>**/adapter/out/persistence/entity/**</exclude>
-                                <exclude>**/adapter/out/persistence/repository/**</exclude>
-                                <exclude>**/adapter/in/web/request/**</exclude>
-                                <exclude>**/adapter/in/web/response/**</exclude>
-                                <exclude>**/application/dto/**</exclude>
+                                <exclude>**/Application.class</exclude>
+                                <exclude>**/config/**</exclude>
+                                <exclude>**/adapter/config/**</exclude>
+                                <exclude>**/adapter/exception/**</exclude>
+                                <exclude>**/adapter/output/health/**</exclude>
+                                <exclude>**/adapter/output/persistence/entity/**</exclude>
+                                <exclude>**/adapter/output/persistence/repository/**</exclude>
+                                <exclude>**/adapter/input/request/**</exclude>
+                                <exclude>**/adapter/input/response/**</exclude>
+                                <exclude>**/adapter/input/swagger/**</exclude>
+                                <exclude>**/core/model/**</exclude>
                             </excludes>
                             <rules>
                                 <rule>
@@ -97,7 +100,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
+                                            <minimum>1.00</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

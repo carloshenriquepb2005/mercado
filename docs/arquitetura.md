@@ -4,19 +4,39 @@
 Ionic/Angular no Android
         │ HTTP na Wi-Fi local
         ▼
-Controller REST Spring Boot
+adapter.input (controllers REST)
         ▼
-Portas de entrada → casos de uso → domínio
+port.input → core.usecase / core.service → core.model
         ▼
-Portas de saída → adapter Spring Data JPA
+port.output → adapter.output (Spring Data JPA)
         ▼
 MySQL 5.5 legado → PDV VB.NET
 ```
 
-O domínio e os casos de uso são Java puro. Controllers, validação HTTP, JPA, CORS, OpenAPI e health check ficam nos adapters e na infraestrutura. O frontend é organizado por funcionalidades; páginas consomem serviços e o scanner nativo fica encapsulado. O fluxo visual é `Login → Home → Scanner → Produto → Sucesso`.
+O backend utiliza arquitetura hexagonal moderada. `core` e `port` são Java puro, sem dependências de Spring, JPA, Hibernate ou HTTP. Regras de negócio ficam exclusivamente em classes com sufixo `UseCase` ou `Service`; os modelos apenas representam dados.
 
-O login simples consulta a tabela legada `usuarios` por `nome` e `senha`, sem hash, e aceita igualmente os perfis 1, 2 e 3. O aplicativo guarda somente código, nome e perfil na sessão local; a senha não é persistida. Esse acesso funciona como controle de entrada da interface e não adiciona token aos endpoints de produto. A tabela de usuários é somente leitura.
+Os pacotes principais são:
 
-A API resolve primeiro `produtos.CODIGO_PRODUTO`; caso não encontre, resolve `produtos_similares.CODIGO_SIMILAR` para o código principal. A única escrita é uma transação que altera `produtos.PRECO_UNITARIO` pelo `ID`.
+```text
+br/com/mercado/precificacao/
+├── adapter/
+│   ├── config/
+│   ├── exception/
+│   ├── input/
+│   └── output/
+├── config/
+├── core/
+│   ├── exception/
+│   ├── mapper/
+│   ├── model/
+│   ├── service/
+│   └── usecase/
+├── port/
+│   ├── input/
+│   └── output/
+└── Application.java
+```
 
-Para compatibilidade com o MySQL 5.5, o backend usa Connector/J 5.1.49 e o dialeto legado da comunidade Hibernate. O schema fica integralmente sob responsabilidade do sistema existente (`ddl-auto: none`).
+As portas usam os sufixos `InputPort` e `OutputPort`. Controllers, validação HTTP e DTOs REST ficam em `adapter.input`; cada controller possui uma interface Swagger individual em `adapter.input.swagger`. JPA e transações ficam em `adapter.output`, enquanto a criação dos casos de uso é feita por `config.BeanConfiguration`.
+
+O frontend é organizado por funcionalidades; páginas consomem serviços e o scanner nativo fica encapsulado. Para compatibilidade com o MySQL 5.5, o backend usa Connector/J 5.1.49 e o dialeto legado da comunidade Hibernate. O schema fica integralmente sob responsabilidade do sistema existente (`ddl-auto: none`).

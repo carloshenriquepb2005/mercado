@@ -7,7 +7,7 @@ Aplicação interna com login, Home operacional, leitura de código de barras, c
 - `backend/`: API Java/Spring Boot em arquitetura hexagonal moderada.
 - `mobile/`: Ionic + Angular standalone + Capacitor para Android.
 - `docs/`: arquitetura, contratos, implantação, requisitos e testes.
-- `backend-antigo/`: referência somente leitura da conexão e do schema existente.
+No backend, o código é dividido entre `adapter`, `config`, `core` e `port`. As portas possuem os sufixos `InputPort` e `OutputPort`, regras de negócio ficam em Use Cases e Services, e cada controller possui sua própria interface Swagger.
 
 ## Requisitos
 
