@@ -6,6 +6,14 @@ Corpo: `{ "username": "Carlos", "password": "senha" }`. Valida `username` contra
 
 O requisito atual usa comparação simples, sem hash. A senha não é devolvida pela API, e não existem endpoints para cadastrar ou alterar usuários.
 
+## `GET /api/configuracoes/conexao`
+
+Valida a comunicação entre a API e o banco legado consultando internamente o usuário de referência. Retorna `204` quando a conexão estiver validada e `503` em caso de indisponibilidade, sem expor o registro consultado.
+
+## `POST /api/configuracoes/validar-senha-caixa`
+
+Corpo: `{ "senha": "1234" }`. Verifica somente para leitura se o valor existe em `senha.SENHA_CAIXA`. Retorna `204` quando válida, `400` para campo vazio ou maior que 10 caracteres e `401` com o código `SENHA_CAIXA_INVALIDA` quando não encontrada. A senha não é persistida nem devolvida.
+
 ## `GET /api/produtos/{ean}`
 
 Retorna `200` com `id`, `codigoBarras`, `descricao` e `precoVenda`. Retorna `400` para código inválido e `404` quando principal/similar não forem encontrados.

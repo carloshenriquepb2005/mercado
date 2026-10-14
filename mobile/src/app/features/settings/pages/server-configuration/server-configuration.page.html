@@ -1,0 +1,82 @@
+<app-header title="Configuração do servidor" [backHref]="internalMode ? '/ajustes' : null" />
+
+<ion-content class="configuration-content">
+  <main class="configuration-shell" [class.internal-mode]="internalMode">
+    <section class="status-card" [class.online]="connectionState() === 'online'">
+      <div class="status-main">
+        <div class="status-icon">
+          <ion-icon [name]="connectionState() === 'online' ? 'wifi-outline' : 'cloud-offline-outline'" />
+        </div>
+        <div>
+          <span>Status atual</span>
+          <strong>
+            <i [class.pulse]="connectionState() === 'checking'"></i>
+            @if (connectionState() === 'checking') { Verificando... }
+            @else if (connectionState() === 'online') { Online / Conectado }
+            @else { Offline / Desconectado }
+          </strong>
+        </div>
+      </div>
+      <small>{{ testedIp() ?? 'Servidor local' }}:8080</small>
+    </section>
+
+    <section class="form-card">
+      <div class="field-heading">
+        <label for="serverIp"><ion-icon name="server-outline" /> Endereço IP do servidor</label>
+        <span>Porta padrão: 8080</span>
+      </div>
+      <div class="ip-field" [class.invalid]="invalidIp()">
+        <input id="serverIp" type="text" inputmode="decimal" maxlength="15"
+          autocomplete="off" placeholder="192.168.0.10" [formControl]="ipControl"
+          (input)="updateIp($event)" aria-describedby="ipHelp" />
+        @if (ipValue()) {
+          <button type="button" (click)="clearIp()" aria-label="Limpar endereço IP">
+            <ion-icon name="close-circle-outline" />
+          </button>
+        }
+      </div>
+      <p id="ipHelp" class="help-text">
+        <ion-icon name="information-circle-outline" />
+        Insira o IP estático configurado no servidor da loja
+      </p>
+      @if (invalidIp()) { <p class="validation-error">Informe um endereço IPv4 válido.</p> }
+
+      @if (result() !== 'none') {
+        <div class="test-result" [class.success]="result() === 'success'" role="status">
+          <ion-icon [name]="result() === 'success' ? 'checkmark-circle' : 'close-circle'" />
+          <div>
+            <strong>{{ result() === 'success' ? 'Conexão estabelecida com sucesso!' : 'Não foi possível conectar' }}</strong>
+            <span>{{ result() === 'success' ? 'Servidor validado e pronto para uso.' : 'Confira o IP, a rede e tente novamente.' }}</span>
+          </div>
+        </div>
+      }
+
+      <button class="test-button" type="button" (click)="testConnection()"
+        [disabled]="connectionState() === 'checking'">
+        @if (connectionState() === 'checking') { <ion-spinner name="crescent" /> }
+        @else { <ion-icon name="server-outline" /> }
+        {{ result() === 'none' ? 'Testar conexão com o banco' : 'Testar novamente' }}
+      </button>
+
+      <button class="save-button" type="button" (click)="save()" [disabled]="!canProceed()">
+        <ion-icon [name]="saved() ? 'checkmark-circle' : 'save-outline'" />
+        {{ saved() ? 'Configuração gravada' : 'Salvar configuração' }}
+      </button>
+    </section>
+
+    <section class="wifi-hint">
+      <ion-icon name="wifi-outline" />
+      <p>Certifique-se de que o dispositivo está conectado ao Wi-Fi operacional da loja.</p>
+    </section>
+  </main>
+
+  @if (!internalMode) {
+    <footer class="login-footer">
+      <button type="button" (click)="goToLogin()" [disabled]="!canProceed()">
+        <ion-icon [name]="canProceed() ? 'lock-open-outline' : 'lock-closed-outline'" />
+        Ir para o login
+      </button>
+      <p>{{ canProceed() ? 'Servidor validado com sucesso.' : 'Realize o teste com sucesso para habilitar o login' }}</p>
+    </footer>
+  }
+</ion-content>

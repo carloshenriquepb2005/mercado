@@ -21,7 +21,7 @@ No backend, o código é dividido entre `adapter`, `config`, `core` e `port`. As
 
 Copie `env.example` para `.env` e substitua os exemplos. O backend carrega automaticamente o `.env` da raiz. `DB_URL` é opcional e, quando omitida, é montada com `DB_HOST`, `DB_PORT` e `DB_DATABASE`.
 
-O build mobile executa `mobile/scripts/generate-environment.mjs` e usa `MOBILE_API_URL`. Sem essa variável, usa `http://localhost:8080`, adequado apenas ao navegador local.
+O aplicativo móvel não recebe uma URL de API durante o build. Na primeira abertura, o operador informa o IPv4 do servidor, testa a comunicação com o banco legado por meio da API e salva a configuração no aparelho. A porta da API é `8080`.
 
 O login consulta somente a tabela legada `usuarios`, usando os campos `codigo`, `nome`, `senha` e `perfil`. A senha é comparada em texto puro, conforme o requisito atual, e nunca é colocada no código do aplicativo. Os perfis 1 (usuário), 2 (gerencial) e 3 (administrador) possuem o mesmo acesso nesta versão. Como a API local usa HTTP, esse login é apropriado somente para a rede interna confiável; para acesso externo, utilize HTTPS e autenticação com sessão/token.
 
@@ -38,7 +38,7 @@ mvn spring-boot:run
 Swagger: `http://localhost:8080/swagger-ui.html`  
 Health check: `http://localhost:8080/actuator/health`
 
-Ao abrir o aplicativo, faça login com o `nome` e a `senha` existentes na tabela `usuarios`. A Home mostra a conectividade e encaminha para o scanner. Depois de salvar um preço, a tela de Sucesso exibe produto, código, preço anterior e novo preço.
+Na primeira abertura, configure e valide o servidor. Depois, faça login com o `nome` e a `senha` existentes na tabela `usuarios`. A Home mostra a conectividade e encaminha para o scanner. O menu Ajustes permite reconfigurar o servidor após validar a senha do caixa. Depois de salvar um preço, a tela de Sucesso exibe produto, código, preço anterior e novo preço.
 
 ```powershell
 cd mobile
@@ -77,7 +77,6 @@ Configure pelo menos:
 ```dotenv
 SERVER_PORT=8080
 SERVER_ADDRESS=0.0.0.0
-MOBILE_API_URL=http://192.168.18.200:8080
 CORS_ALLOWED_ORIGINS=http://localhost:4200,http://localhost:8100,http://localhost,capacitor://localhost
 ```
 
@@ -175,13 +174,12 @@ Verifique nesta ordem:
 1. o backend continua aberto e sem erro;
 2. `/actuator/health` retorna `UP` no computador;
 3. o mesmo endereço abre no navegador do celular;
-4. `MOBILE_API_URL` contém o IP atual do computador;
+4. o IP salvo na tela de configuração corresponde ao IP atual do computador;
 5. computador e celular estão na mesma rede;
-6. a porta 8080 e o executável do JDK não estão bloqueados no Firewall;
-7. o aplicativo foi reconstruído e sincronizado depois de alterar o `.env`.
+6. a porta 8080 e o executável do JDK não estão bloqueados no Firewall.
 
 ## Limites e segurança do legado
 
-Não há endpoints para criar, substituir ou excluir produtos ou usuários. A atualização usa uma query explícita que modifica apenas `PRECO_UNITARIO` pelo `ID`; o acesso a `usuarios` é somente leitura. Hibernate está com `ddl-auto: none`; não há migrations. Senha, SQL interno e stack traces não são enviados ao aplicativo.
+Não há endpoints para criar, substituir ou excluir produtos ou usuários. A atualização usa uma query explícita que modifica apenas `PRECO_UNITARIO` pelo `ID`; os acessos a `usuarios` e `senha` são somente leitura. Hibernate está com `ddl-auto: none`; não há migrations. Senha, SQL interno e stack traces não são enviados ao aplicativo.
 
 Consulte [arquitetura](docs/arquitetura.md), [API](docs/api.md), [implantação](docs/implantacao.md) e [testes](docs/testes.md).

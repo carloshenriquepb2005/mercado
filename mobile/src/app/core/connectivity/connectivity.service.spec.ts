@@ -1,18 +1,20 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { API_BASE_URL, apiBaseUrlFactory } from '../config/api.config';
+import { ApiConfigService } from '../config/api-config.service';
 import { ConnectivityService } from './connectivity.service';
 
 describe('ConnectivityService', () => {
   let service: ConnectivityService;
   let http: HttpTestingController;
+  const config = jasmine.createSpyObj<ApiConfigService>('config', ['baseUrl']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting(),
-        { provide: API_BASE_URL, useValue: 'http://servidor:8080' }]
+        { provide: ApiConfigService, useValue: config }]
     });
+    config.baseUrl.and.returnValue('http://servidor:8080');
     service = TestBed.inject(ConnectivityService);
     http = TestBed.inject(HttpTestingController);
   });
@@ -37,8 +39,10 @@ describe('ConnectivityService', () => {
     expect(service.state()).toBe('offline');
   });
 
-  it('normaliza a barra final da URL configurada', () => {
-    expect(apiBaseUrlFactory().endsWith('/')).toBeFalse();
+  it('expõe offline sem configuração salva', () => {
+    config.baseUrl.and.returnValue('');
+    service.check().subscribe((available) => expect(available).toBeFalse());
+    expect(service.state()).toBe('offline');
   });
 });
 

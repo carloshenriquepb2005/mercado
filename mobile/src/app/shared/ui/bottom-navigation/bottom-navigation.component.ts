@@ -14,13 +14,13 @@ import { barcodeOutline, home, pricetagOutline, settingsOutline } from 'ionicons
 })
 export class BottomNavigationComponent {
   private readonly router = inject(Router);
-  readonly active = input<'home' | 'scanner'>('home');
+  readonly active = input<'home' | 'scanner' | 'settings'>('home');
 
   constructor() {
     addIcons({ home, barcodeOutline, pricetagOutline, settingsOutline });
   }
 
-  goTo(url: '/home' | '/scanner'): void {
+  goTo(url: '/home' | '/scanner' | '/ajustes'): void {
     void this.router.navigateByUrl(url);
   }
 }

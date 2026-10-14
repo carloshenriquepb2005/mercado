@@ -1,0 +1,57 @@
+<app-header title="Ajustes" backHref="/home" />
+
+<ion-content class="page-content">
+  <main class="settings-shell">
+    <section class="intro">
+      <h1>Configurações do aplicativo</h1>
+      <p>Gerencie o dispositivo e sua conexão com o servidor local.</p>
+    </section>
+
+    <section class="settings-group" aria-label="Configurações de conexão">
+      <button type="button" (click)="openServerConfiguration()">
+        <span class="option-icon"><ion-icon name="server-outline" /></span>
+        <span class="option-copy">
+          <strong>Configuração do servidor</strong>
+          <small>Alterar IP e testar a conexão</small>
+        </span>
+        <ion-icon name="chevron-forward-outline" />
+      </button>
+    </section>
+  </main>
+  <app-bottom-navigation active="settings" />
+</ion-content>
+
+@if (modalOpen()) {
+  <div class="modal-backdrop" role="presentation" (click)="closeModal()">
+    <section class="password-modal" role="dialog" aria-modal="true" aria-labelledby="passwordTitle"
+      (click)="$event.stopPropagation()">
+      <button class="close-button" type="button" (click)="closeModal()" aria-label="Fechar">
+        <ion-icon name="close-outline" />
+      </button>
+      <div class="modal-icon"><ion-icon name="server-outline" /></div>
+      <h2 id="passwordTitle">Acesso protegido</h2>
+      <p>Informe a senha do caixa para abrir a configuração do servidor.</p>
+
+      <label for="cashierPassword">Senha do caixa</label>
+      <div class="password-field">
+        <input id="cashierPassword" [type]="showPassword() ? 'text' : 'password'"
+          maxlength="10" autocomplete="off" [formControl]="password"
+          (keydown.enter)="validatePassword()" />
+        <button type="button" (click)="togglePassword()"
+          [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Mostrar senha'">
+          <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" />
+        </button>
+      </div>
+      @if (password.touched && password.hasError('required')) {
+        <p class="field-error">Informe a senha do caixa.</p>
+      }
+      @if (errorMessage()) { <p class="field-error" role="alert">{{ errorMessage() }}</p> }
+
+      <button class="confirm-button" type="button" (click)="validatePassword()"
+        [disabled]="submitting()">
+        @if (submitting()) { <ion-spinner name="crescent" /> }
+        Confirmar acesso
+      </button>
+    </section>
+  </div>
+}

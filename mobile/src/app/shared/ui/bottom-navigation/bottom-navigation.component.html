@@ -8,7 +8,7 @@
   <button type="button" disabled aria-label="Etiquetas, em breve">
     <ion-icon name="pricetag-outline" /><span>Etiquetas</span>
   </button>
-  <button type="button" disabled aria-label="Ajustes, em breve">
+  <button type="button" (click)="goTo('/ajustes')" [class.active]="active() === 'settings'" aria-label="Ajustes">
     <ion-icon name="settings-outline" /><span>Ajustes</span>
   </button>
 </nav>

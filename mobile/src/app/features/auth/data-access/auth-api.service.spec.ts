@@ -1,18 +1,20 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { API_BASE_URL } from '../../../core/config/api.config';
+import { ApiConfigService } from '../../../core/config/api-config.service';
 import { AuthApiService } from './auth-api.service';
 
 describe('AuthApiService', () => {
   let service: AuthApiService;
   let http: HttpTestingController;
+  const config = jasmine.createSpyObj<ApiConfigService>('config', ['baseUrl']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting(),
-        { provide: API_BASE_URL, useValue: 'http://servidor:8080' }]
+        { provide: ApiConfigService, useValue: config }]
     });
+    config.baseUrl.and.returnValue('http://servidor:8080');
     service = TestBed.inject(AuthApiService);
     http = TestBed.inject(HttpTestingController);
   });

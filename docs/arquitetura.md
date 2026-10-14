@@ -39,7 +39,7 @@ br/com/mercado/precificacao/
 
 As portas usam os sufixos `InputPort` e `OutputPort`. Controllers, validação HTTP e DTOs REST ficam em `adapter.input`; cada controller possui uma interface Swagger individual em `adapter.input.swagger`. JPA e transações ficam em `adapter.output`, enquanto a criação dos casos de uso é feita por `config.BeanConfiguration`.
 
-O frontend é organizado por funcionalidades; páginas consomem serviços e o scanner nativo fica encapsulado. Para compatibilidade com o MySQL 5.5, o backend usa Connector/J 5.1.49 e o dialeto legado da comunidade Hibernate. O schema fica integralmente sob responsabilidade do sistema existente (`ddl-auto: none`).
+O frontend é organizado por funcionalidades; páginas consomem serviços e o scanner nativo fica encapsulado. A URL da API é configurada em runtime na primeira abertura e persistida localmente no aparelho, sem variável de build. Para compatibilidade com o MySQL 5.5, o backend usa Connector/J 5.1.49 e o dialeto legado da comunidade Hibernate. O schema fica integralmente sob responsabilidade do sistema existente (`ddl-auto: none`).
 
 ## Organização do aplicativo móvel
 
@@ -52,7 +52,8 @@ app/
 │   ├── auth/
 │   ├── home/
 │   ├── product-pricing/
-│   └── scanner/
+│   ├── scanner/
+│   └── settings/
 ├── shared/     # UI, pipes, validadores e utilitários reutilizáveis
 ├── app.component.ts
 ├── app.config.ts

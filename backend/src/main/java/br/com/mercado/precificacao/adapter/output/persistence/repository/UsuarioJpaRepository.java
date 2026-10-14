@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface UsuarioJpaRepository extends JpaRepository<UsuarioJpaEntity, Long> {
     Optional<UsuarioJpaEntity> findFirstByNomeAndSenha(String nome, String senha);
+
+    boolean existsByNomeIgnoreCase(String nome);
 }

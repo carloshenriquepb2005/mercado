@@ -3,14 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "config": "node scripts/generate-environment.mjs",
-    "start": "npm run config && ng serve",
-    "prebuild": "npm run config",
+    "start": "ng serve",
     "build": "ng build",
     "lint": "eslint \"src/**/*.ts\"",
-    "pretest": "npm run config",
     "test": "ng test",
-    "test:ci": "npm run config && ng test --watch=false --browsers=ChromeHeadless"
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless"
   },
   "dependencies": {
     "@angular/animations": "21.2.19",

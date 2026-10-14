@@ -5,6 +5,8 @@ import br.com.mercado.precificacao.core.exception.CodigoBarrasInvalidoException;
 import br.com.mercado.precificacao.core.exception.CredenciaisInvalidasException;
 import br.com.mercado.precificacao.core.exception.PrecoInvalidoException;
 import br.com.mercado.precificacao.core.exception.ProdutoNaoEncontradoException;
+import br.com.mercado.precificacao.core.exception.SenhaCaixaInvalidaException;
+import br.com.mercado.precificacao.core.exception.ServidorNaoValidadoException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -30,6 +32,18 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiErrorResponse> handleUnauthorized(CredenciaisInvalidasException exception,
                                                         HttpServletRequest request) {
         return error(HttpStatus.UNAUTHORIZED, "CREDENCIAIS_INVALIDAS", exception.getMessage(), request);
+    }
+
+    @ExceptionHandler(SenhaCaixaInvalidaException.class)
+    ResponseEntity<ApiErrorResponse> handleInvalidCashierPassword(SenhaCaixaInvalidaException exception,
+                                                                  HttpServletRequest request) {
+        return error(HttpStatus.UNAUTHORIZED, "SENHA_CAIXA_INVALIDA", exception.getMessage(), request);
+    }
+
+    @ExceptionHandler(ServidorNaoValidadoException.class)
+    ResponseEntity<ApiErrorResponse> handleServerNotValidated(ServidorNaoValidadoException exception,
+                                                               HttpServletRequest request) {
+        return error(HttpStatus.SERVICE_UNAVAILABLE, "CONEXAO_NAO_VALIDADA", exception.getMessage(), request);
     }
 
     @ExceptionHandler(ProdutoNaoEncontradoException.class)
