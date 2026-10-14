@@ -1,0 +1,22 @@
+.barcode-symbol {
+  --symbol-size: 66px;
+  --bar-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: var(--symbol-size);
+  height: var(--symbol-size);
+  border-radius: 12px;
+  background: var(--app-surface-high);
+}
+
+.barcode-symbol.small { --symbol-size: 62px; --bar-height: 32px; }
+.barcode-symbol.large { --symbol-size: 68px; --bar-height: 34px; border-radius: 15px; }
+.barcode-symbol.brand { background: #00796b; box-shadow: 0 10px 24px rgb(0 94 83 / 22%); transform: rotate(3deg); }
+
+i { width: 4px; height: var(--bar-height); background: var(--ion-color-primary); }
+.brand i { background: #a1feec; }
+i:nth-child(2) { width: 7px; height: calc(var(--bar-height) + 8px); }
+i:nth-child(3) { height: calc(var(--bar-height) + 4px); }
+i:nth-child(4) { width: 2px; height: calc(var(--bar-height) + 10px); }

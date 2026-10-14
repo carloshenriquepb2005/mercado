@@ -1,0 +1,12 @@
+<section class="product-card">
+  <app-barcode-symbol />
+  <div class="product-copy">
+    <p class="eyebrow">PRODUTO ENCONTRADO</p>
+    <h1>{{ product().descricao }}</h1>
+    <p class="ean">EAN {{ product().codigoBarras }}</p>
+  </div>
+  <div class="current-price">
+    <span>Preço atual</span>
+    <strong>{{ product().precoVenda | brlCurrency }}</strong>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar class="app-toolbar">
+    @if (backHref(); as href) {
+      <ion-buttons slot="start">
+        <ion-back-button [defaultHref]="href" text="" />
+      </ion-buttons>
+    }
+    <ion-title>{{ title() }}</ion-title>
+    <ion-buttons slot="end"><ng-content /></ion-buttons>
+  </ion-toolbar>
+</ion-header>

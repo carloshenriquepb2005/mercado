@@ -1,0 +1,13 @@
+<section class="page-state" [class.error]="kind() === 'error'" [attr.aria-live]="kind() === 'error' ? 'assertive' : 'polite'">
+  @if (kind() === 'loading') {
+    <ion-spinner name="crescent" color="primary" />
+  } @else {
+    <div class="state-icon" aria-hidden="true">!</div>
+  }
+  @if (title()) { <h1>{{ title() }}</h1> }
+  @if (description()) { <p>{{ description() }}</p> }
+  @if (info()) { <div class="info-strip"><span></span>{{ info() }}</div> }
+  @if (actionLabel()) {
+    <ion-button class="primary-action" expand="block" (click)="action.emit()">{{ actionLabel() }}</ion-button>
+  }
+</section>

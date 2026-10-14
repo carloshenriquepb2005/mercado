@@ -1,0 +1,19 @@
+.logout { display: grid; place-items: center; width: 48px; height: 48px; margin-right: 8px; border: 0; border-radius: 50%; background: transparent; color: var(--ion-color-primary); }
+.logout:active { background: rgb(0 94 83 / 8%); }
+.logout ion-icon { font-size: 24px; }
+.home-shell { width: min(100%, 760px); min-height: calc(100% - 76px); margin: 0 auto; padding: 24px 16px 28px; }
+.welcome { margin-bottom: 22px; }
+.welcome h1 { margin: 0 0 6px; color: var(--app-on-surface); font-size: 25px; line-height: 32px; }
+.bento-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.featured-card, .settings-card { grid-column: 1 / -1; }
+.sync-card { position: relative; min-height: 142px; margin-top: 22px; overflow: hidden; border-radius: 18px; background: linear-gradient(135deg, #193c38, #2d645d); box-shadow: 0 8px 22px rgb(24 29 27 / 14%); }
+.sync-card::after { position: absolute; inset: 0; background: linear-gradient(transparent, rgb(0 0 0 / 55%)); content: ''; }
+.sync-card p { position: absolute; z-index: 2; right: 16px; bottom: 14px; left: 16px; margin: 0; color: #fff; font-size: 13px; font-weight: 700; }
+.shelves { position: absolute; inset: 18px 20px 36px; display: grid; gap: 10px; transform: perspective(300px) rotateX(4deg); }
+.shelves i { border-top: 5px solid rgb(255 255 255 / 35%); border-bottom: 16px dotted rgb(151 243 226 / 26%); }
+@media (min-width: 640px) {
+  .bento-grid { grid-template-columns: repeat(3, 1fr); }
+  .featured-card { grid-column: span 2; grid-row: span 2; }
+  .settings-card { grid-column: span 1; }
+  .sync-card { min-height: 170px; }
+}

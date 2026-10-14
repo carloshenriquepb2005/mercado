@@ -1,0 +1,19 @@
+.page-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 68vh;
+  margin: auto 0;
+  text-align: center;
+}
+
+.page-state.error { min-height: auto; padding: 36px 24px; border: 1px solid rgb(189 201 197 / 45%); border-radius: 20px; background: white; box-shadow: 0 12px 34px rgb(24 29 27 / 7%); }
+ion-spinner { width: 44px; height: 44px; }
+h1 { margin: 16px 0 8px; color: var(--app-on-surface); font-size: 25px; line-height: 32px; }
+p { margin: 0; color: var(--app-on-surface-variant); font-size: 15px; line-height: 22px; }
+.state-icon { display: grid; place-items: center; width: 76px; height: 76px; margin-bottom: 2px; border-radius: 50%; background: #ffdad6; color: var(--ion-color-danger); font-size: 42px; font-weight: 800; }
+.info-strip { display: flex; gap: 10px; align-items: center; width: 100%; margin: 24px 0; padding: 13px; border-radius: 10px; background: #fff4f1; color: #7c2d24; font-size: 13px; text-align: left; }
+.info-strip span { flex: 0 0 8px; height: 8px; border-radius: 50%; background: var(--ion-color-danger); }
+.primary-action { width: 100%; margin-top: 18px; }

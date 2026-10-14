@@ -1,0 +1,11 @@
+@if (interactive()) {
+  <button type="button" class="status" [class.compact]="compact()" (click)="retry.emit()">
+    <span class="dot" [class.online]="state() === 'online'" aria-hidden="true"></span>
+    {{ label() }}
+  </button>
+} @else {
+  <span class="status" [class.compact]="compact()">
+    <span class="dot" [class.online]="state() === 'online'" aria-hidden="true"></span>
+    {{ label() }}
+  </span>
+}

@@ -5,9 +5,9 @@ import { provideRouter, RouteReuseStrategy, withComponentInputBinding } from '@a
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { API_BASE_URL, apiBaseUrlFactory } from './core/config/api.config';
-import { appErrorInterceptor } from './core/interceptors/app-error.interceptor';
+import { appErrorInterceptor } from './core/http/app-error.interceptor';
 import { routes } from './app.routes';
-import { BARCODE_SCANNER } from './features/scanner/services/barcode-scanner.port';
+import { BARCODE_SCANNER } from './features/scanner/data-access/barcode-scanner.port';
 
 export const appConfig: ApplicationConfig = {
   providers: [

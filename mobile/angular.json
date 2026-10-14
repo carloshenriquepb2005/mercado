@@ -19,7 +19,12 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [{ "glob": "**/*", "input": "src/assets", "output": "assets" }],
-            "styles": ["src/theme/variables.scss", "src/global.scss"]
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss",
+              "src/styles/_layout.scss",
+              "src/styles/_actions.scss"
+            ]
           },
           "configurations": {
             "production": {
@@ -52,7 +57,12 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [{ "glob": "**/*", "input": "src/assets", "output": "assets" }],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss",
+              "src/styles/_layout.scss",
+              "src/styles/_actions.scss"
+            ],
             "codeCoverage": true
           }
         }

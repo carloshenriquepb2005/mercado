@@ -1,0 +1,37 @@
+<app-header>
+  <button class="logout" type="button" (click)="logout()" aria-label="Sair da conta">
+    <ion-icon name="log-out-outline" />
+  </button>
+</app-header>
+
+<ion-content class="page-content">
+  <main class="home-shell">
+    <section class="welcome">
+      <h1>Olá, {{ session.user()?.displayName ?? 'Atendente' }}</h1>
+      <app-connection-status [state]="connectivity.state()" [interactive]="true"
+        (retry)="connectivity.check().subscribe()" />
+    </section>
+
+    <section class="bento-grid" aria-label="Ações">
+      <app-home-action-card class="featured-card" title="Alterar Preço"
+        description="Inicie a alteração rápida de valores na gôndola."
+        icon="pricetag-outline" variant="featured" link="/scanner" />
+      <app-home-action-card title="Consultar Produto" icon="barcode-outline" link="/scanner" />
+      <app-home-action-card title="Promoções" icon="calculator-outline" tone="orange"
+        (selected)="comingSoon('Promoções')" />
+      <app-home-action-card title="Etiquetas" icon="pricetag-outline" tone="muted"
+        badge="Em breve" [disabled]="true" />
+      <app-home-action-card title="Inventário" icon="cube-outline" tone="muted"
+        badge="Em breve" [disabled]="true" />
+      <app-home-action-card class="settings-card" title="Configurações"
+        description="Dispositivo e conta" icon="settings-outline" tone="muted" variant="wide"
+        (selected)="comingSoon('Configurações')" />
+    </section>
+
+    <section class="sync-card" aria-label="Status de sincronização">
+      <div class="shelves" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p>{{ connectivity.state() === 'online' ? 'Sistema conectado à API local' : 'Aguardando conexão com a API local' }}</p>
+    </section>
+  </main>
+  <app-bottom-navigation active="home" />
+</ion-content>

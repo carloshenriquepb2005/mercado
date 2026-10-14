@@ -1,0 +1,36 @@
+<app-header>
+  <app-connection-status [state]="connectivity.state()" [compact]="true" />
+</app-header>
+
+<ion-content class="page-content">
+  <main class="page-shell scanner-shell">
+    @if (connectivity.state() === 'checking') {
+      <app-page-state title="Conectando ao servidor"
+        description="Verificando a API na rede local da loja." />
+    } @else if (connectivity.state() === 'offline') {
+      <app-page-state kind="error" title="Servidor indisponível"
+        description="Confira o Wi-Fi da loja e se o servidor de precificação está ligado."
+        info="Não foi possível acessar a API local." actionLabel="Tentar novamente"
+        (action)="retryConnection()" />
+    } @else {
+      <section class="scanner-intro">
+        <p class="eyebrow">LEITOR DE PRODUTOS</p>
+        <h1>Escaneie o código de barras</h1>
+        <p>Aponte a câmera para o EAN impresso na embalagem.</p>
+      </section>
+
+      <app-scanner-frame />
+
+      <section class="actions">
+        <ion-button class="primary-action" expand="block" [disabled]="scanning()" (click)="startScan()">
+          @if (scanning()) { <ion-spinner name="crescent" /> } @else { Escanear produto }
+        </ion-button>
+        <ion-button class="secondary-action" fill="outline" expand="block" [disabled]="scanning()" (click)="enterManually()">
+          Digitar código manualmente
+        </ion-button>
+        <p class="privacy-note">A câmera é usada somente durante a leitura.</p>
+      </section>
+    }
+  </main>
+  <app-bottom-navigation active="scanner" />
+</ion-content>

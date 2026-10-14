@@ -1,0 +1,16 @@
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--app-on-surface-variant);
+  font: 700 13px var(--ion-font-family);
+}
+
+.status.compact { gap: 7px; margin: 0 14px 0 12px; font-size: 12px; font-weight: 650; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ion-color-danger); box-shadow: 0 0 0 4px rgb(186 26 26 / 10%); }
+.compact .dot { width: 9px; height: 9px; }
+.dot.online { background: #16856e; box-shadow: 0 0 0 4px rgb(22 133 110 / 12%); }

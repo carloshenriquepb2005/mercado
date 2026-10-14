@@ -1,0 +1,42 @@
+<app-header backHref="/scanner" />
+
+<ion-content class="page-content">
+  <main class="page-shell pricing-shell">
+    @if (loading()) {
+      <app-page-state description="Consultando produto…" />
+    } @else if (product(); as currentProduct) {
+      <app-product-card [product]="currentProduct" />
+
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+        <section class="price-editor">
+          <label for="new-price">Novo preço</label>
+          <div class="price-input" [class.invalid]="form.controls.novoPreco.invalid && form.controls.novoPreco.touched">
+            <span>R$</span>
+            <ion-input id="new-price" formControlName="novoPreco" inputmode="decimal" placeholder="0,00" aria-describedby="price-help" />
+          </div>
+          <p id="price-help" class="field-help">Até 8 dígitos inteiros e 2 casas decimais.</p>
+          @if (form.controls.novoPreco.invalid && form.controls.novoPreco.touched) {
+            <p class="error-message">Informe um preço maior que zero com até duas casas decimais.</p>
+          }
+        </section>
+
+        <app-numeric-keypad [disabled]="saving()" (keyPress)="appendKey($event)" />
+
+        @if (errorMessage()) { <p class="request-error" role="alert">{{ errorMessage() }}</p> }
+
+        <div class="form-actions">
+          <ion-button class="primary-action" expand="block" type="submit"
+            [disabled]="form.invalid || saving() || !product()">
+            @if (saving()) { <ion-spinner name="crescent" /> } @else { Salvar novo preço }
+          </ion-button>
+          <ion-button class="secondary-action" fill="clear" expand="block" type="button" [disabled]="saving()" (click)="cancel()">
+            Cancelar
+          </ion-button>
+        </div>
+      </form>
+    } @else {
+      <app-page-state kind="error" title="Não foi possível abrir o produto"
+        [description]="errorMessage()" actionLabel="Voltar ao scanner" (action)="cancel()" />
+    }
+  </main>
+</ion-content>

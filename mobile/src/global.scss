@@ -15,46 +15,6 @@ body {
   font-family: var(--ion-font-family);
 }
 
-.app-toolbar {
-  --background: var(--app-surface);
-  --color: var(--ion-color-primary);
-  --border-width: 0;
-  --min-height: 56px;
-  box-shadow: 0 2px 8px rgb(24 29 27 / 5%);
-}
-
-.page-content { --background: var(--app-surface); }
-
-.page-shell {
-  width: min(100%, 520px);
-  min-height: 100%;
-  margin: 0 auto;
-  padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
-}
-
-.primary-action {
-  min-height: 52px;
-  margin: 0;
-  font-weight: 700;
-  letter-spacing: .02em;
-  --border-radius: 12px;
-  --box-shadow: 0 8px 20px rgb(0 94 83 / 18%);
-}
-
-.secondary-action {
-  min-height: 50px;
-  margin: 0;
-  font-weight: 650;
-  --border-radius: 12px;
-}
-
-.error-message {
-  margin: 8px 4px 0;
-  color: var(--ion-color-danger);
-  font-size: 13px;
-  line-height: 18px;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;

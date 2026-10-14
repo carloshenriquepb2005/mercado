@@ -1,0 +1,8 @@
+.page-content { --background: var(--app-surface); }
+
+.page-shell {
+  width: min(100%, 520px);
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+}

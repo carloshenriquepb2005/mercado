@@ -1,0 +1,44 @@
+<ion-content class="login-content" [fullscreen]="true">
+  <main class="login-shell">
+    <section class="brand" aria-label="Aplicativo de Precificação">
+      <app-barcode-symbol size="large" variant="brand" />
+      <h1>Precificação</h1>
+    </section>
+
+    <section class="login-card">
+      <header><h2>Entrar</h2><p>Acesse sua conta corporativa</p></header>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <label class="field">
+          <span>Usuário</span>
+          <input type="text" formControlName="username" autocomplete="username" maxlength="80" />
+        </label>
+        @if (form.controls.username.invalid && form.controls.username.touched) {
+          <p class="field-error">Informe o usuário.</p>
+        }
+
+        <label class="field password-field">
+          <span>Senha</span>
+          <input [type]="showPassword() ? 'text' : 'password'" formControlName="password"
+            autocomplete="current-password" maxlength="120" />
+          <button type="button" class="visibility" (click)="togglePassword()"
+            [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Mostrar senha'">
+            {{ showPassword() ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </label>
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+          <p class="field-error">Informe a senha.</p>
+        }
+
+        <label class="remember"><input type="checkbox" formControlName="remember" /><span>Lembrar usuário</span></label>
+        @if (errorMessage()) { <p class="login-error" role="alert">{{ errorMessage() }}</p> }
+
+        <ion-button class="login-button" expand="block" type="submit" [disabled]="form.invalid || submitting()">
+          @if (submitting()) { <ion-spinner name="crescent" /> } @else { Entrar <span aria-hidden="true">→</span> }
+        </ion-button>
+        <button class="forgot" type="button" (click)="forgotPassword()">Esqueci minha senha</button>
+      </form>
+    </section>
+
+    <p class="version">Versão 1.0.0 • Retail OS</p>
+  </main>
+</ion-content>

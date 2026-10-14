@@ -1,0 +1,10 @@
+.scanner-frame { position: relative; display: grid; place-items: center; width: min(78vw, 330px); aspect-ratio: 1.2; overflow: hidden; border-radius: 24px; background: linear-gradient(145deg, #dfe8e4, #eef4f1); box-shadow: inset 0 0 0 1px rgb(110 122 118 / 16%), 0 16px 38px rgb(24 29 27 / 10%); }
+.corner { position: absolute; width: 38px; height: 38px; border-color: var(--ion-color-primary); border-style: solid; }
+.top-left { top: 18px; left: 18px; border-width: 4px 0 0 4px; border-radius: 8px 0 0; }
+.top-right { top: 18px; right: 18px; border-width: 4px 4px 0 0; border-radius: 0 8px 0 0; }
+.bottom-left { bottom: 18px; left: 18px; border-width: 0 0 4px 4px; border-radius: 0 0 0 8px; }
+.bottom-right { right: 18px; bottom: 18px; border-width: 0 4px 4px 0; border-radius: 0 0 8px; }
+.barcode-bars { width: 62%; height: 42%; opacity: .72; background: repeating-linear-gradient(90deg, #26332f 0 3px, transparent 3px 7px, #26332f 7px 9px, transparent 9px 13px); }
+.scan-line { position: absolute; left: 14%; width: 72%; height: 2px; background: #ba1a1a; box-shadow: 0 0 10px #ba1a1a; animation: scan 2.4s linear infinite; }
+@keyframes scan { from { top: 22%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { top: 78%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .scan-line { animation: none; top: 50%; } }

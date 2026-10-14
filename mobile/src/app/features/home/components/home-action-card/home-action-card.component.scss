@@ -1,0 +1,21 @@
+.action-card { width: 100%; border: 1px solid rgb(189 201 197 / 35%); border-radius: 16px; background: #fff; color: var(--app-on-surface); box-shadow: 0 5px 16px rgb(24 29 27 / 6%); text-decoration: none; font-family: var(--ion-font-family); transition: transform 120ms ease; }
+.action-card:not(:disabled):active { transform: scale(.97); }
+.featured { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; min-height: 180px; padding: 22px; overflow: hidden; border: 0; background: #00796b; color: #a1feec; box-shadow: 0 12px 26px rgb(0 94 83 / 20%); text-align: left; }
+.featured::after { position: absolute; top: -26px; right: -16px; width: 100px; height: 100px; border: 18px solid rgb(255 255 255 / 8%); border-radius: 50%; content: ''; }
+.icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 13px; background: rgb(151 243 226 / 35%); color: var(--ion-color-primary); }
+.icon ion-icon { font-size: 25px; }
+.featured .icon { width: 54px; height: 54px; border-radius: 50%; background: rgb(255 255 255 / 16%); color: inherit; }
+.featured .icon ion-icon { font-size: 30px; }
+.icon.orange { background: #ffdbd1; color: #843f29; }
+.icon.muted { background: var(--app-surface-high); color: var(--app-outline); }
+.featured h2 { margin: 18px 0 4px; color: #fff; font-size: 21px; }
+.featured p { max-width: 380px; margin: 0; color: rgb(255 255 255 / 78%); font-size: 14px; line-height: 20px; }
+.compact { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 126px; padding: 14px; text-align: center; }
+.compact .copy { display: contents; }
+.compact strong { font-size: 13px; }
+small { padding: 2px 7px; border-radius: 999px; background: var(--app-surface-high); color: var(--app-outline); font-size: 9px; font-weight: 800; text-transform: uppercase; }
+.disabled-card { opacity: .58; }
+.wide { display: flex; align-items: center; gap: 14px; min-height: 82px; padding: 14px; text-align: left; }
+.wide .copy { display: grid; gap: 3px; }
+.wide strong { font-size: 14px; }
+.wide span { color: var(--app-on-surface-variant); font-size: 12px; }

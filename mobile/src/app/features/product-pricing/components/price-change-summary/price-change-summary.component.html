@@ -1,0 +1,10 @@
+<section class="summary-card">
+  <div class="product-row">
+    <app-barcode-symbol size="small" />
+    <div><h2>{{ description() }}</h2><p>Cód: {{ barcode() }}</p></div>
+  </div>
+  <div class="prices">
+    <div><small>Preço anterior</small><del>{{ previousPrice() | brlCurrency }}</del></div>
+    <div><small>Novo preço</small><strong>{{ newPrice() | brlCurrency }}</strong></div>
+  </div>
+</section>

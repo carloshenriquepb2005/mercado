@@ -1,0 +1,26 @@
+<ng-template #content>
+  <div class="icon" [class.orange]="tone() === 'orange'" [class.muted]="tone() === 'muted'">
+    <ion-icon [name]="icon()" />
+  </div>
+  <div class="copy">
+    @if (variant() === 'featured') { <h2>{{ title() }}</h2> } @else { <strong>{{ title() }}</strong> }
+    @if (description()) {
+      @if (variant() === 'featured') { <p>{{ description() }}</p> } @else { <span>{{ description() }}</span> }
+    }
+    @if (badge()) { <small>{{ badge() }}</small> }
+  </div>
+</ng-template>
+
+@if (link(); as destination) {
+  <a class="action-card" [class.featured]="variant() === 'featured'"
+    [class.compact]="variant() === 'compact'" [class.wide]="variant() === 'wide'" [routerLink]="destination">
+    <ng-container [ngTemplateOutlet]="content" />
+  </a>
+} @else {
+  <button class="action-card" [class.featured]="variant() === 'featured'"
+    [class.compact]="variant() === 'compact'" [class.wide]="variant() === 'wide'"
+    [class.disabled-card]="disabled()" type="button"
+    [disabled]="disabled()" (click)="selected.emit()">
+    <ng-container [ngTemplateOutlet]="content" />
+  </button>
+}

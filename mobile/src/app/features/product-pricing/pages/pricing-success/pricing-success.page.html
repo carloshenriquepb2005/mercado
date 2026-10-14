@@ -1,0 +1,26 @@
+<app-header />
+
+<ion-content class="page-content">
+  <main class="success-shell">
+    <div class="success-icon" aria-hidden="true">✓<span></span></div>
+    <section class="success-copy" aria-live="polite">
+      <h1>Preço atualizado com sucesso!</h1>
+      <p>O novo valor já está disponível no sistema.</p>
+    </section>
+
+    <div class="summary-wrapper">
+      @if (success.data(); as data) {
+        <app-price-change-summary [description]="data.description" [barcode]="data.barcode"
+          [previousPrice]="data.previousPrice" [newPrice]="data.newPrice" />
+      } @else {
+        <section class="empty-summary"><p>A alteração foi concluída.</p></section>
+      }
+    </div>
+
+    <section class="success-actions">
+      <button class="primary-button" type="button" (click)="scanAnother()"><span aria-hidden="true">◦</span> Escanear outro produto</button>
+      <button class="outline-button" type="button" (click)="goHome()"><span aria-hidden="true">⌂</span> Voltar para Home</button>
+    </section>
+  </main>
+  <app-bottom-navigation active="scanner" />
+</ion-content>
