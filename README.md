@@ -27,6 +27,8 @@ O login consulta somente a tabela legada `usuarios`, usando os campos `codigo`, 
 
 ## Executar e validar
 
+No Windows, a pasta `setup/` possui executáveis para iniciar backend e frontend, gerar o APK e executar as suítes de testes. Os arquivos devem permanecer nessa pasta para localizarem automaticamente os módulos do projeto. Consulte `setup/README.md` para os pré-requisitos e comandos executados.
+
 ```powershell
 cd backend
 mvn clean verify
