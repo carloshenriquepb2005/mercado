@@ -1,8 +1,6 @@
 package br.com.mercado.precificacao.core.usecase;
 
-import br.com.mercado.precificacao.core.exception.PrecoInvalidoException;
 import br.com.mercado.precificacao.core.exception.ProdutoNaoEncontradoException;
-import br.com.mercado.precificacao.core.model.AtualizacaoPrecoCommand;
 import br.com.mercado.precificacao.core.service.ProdutoService;
 import br.com.mercado.precificacao.port.input.AtualizarPrecoProdutoInputPort;
 import br.com.mercado.precificacao.port.output.AtualizarPrecoProdutoOutputPort;
@@ -24,17 +22,14 @@ public final class AtualizarPrecoProdutoUseCase implements AtualizarPrecoProduto
     }
 
     @Override
-    public void executar(Long produtoId, AtualizacaoPrecoCommand command) {
+    public void executar(Long produtoId, BigDecimal novoPreco) {
         if (produtoId == null || produtoId <= 0) {
             throw new IllegalArgumentException("O ID do produto deve ser positivo.");
         }
-        if (command == null) {
-            throw new PrecoInvalidoException("O novo preço é obrigatório.");
-        }
 
+        BigDecimal precoNormalizado = produtoService.validarNovoPreco(novoPreco);
         buscarProdutoOutputPort.buscarPorId(produtoId)
                 .orElseThrow(ProdutoNaoEncontradoException::new);
-        BigDecimal precoNormalizado = produtoService.validarNovoPreco(command.novoPreco());
         boolean atualizado = atualizarPrecoProdutoOutputPort.atualizarPreco(produtoId, precoNormalizado);
         if (!atualizado) {
             throw new ProdutoNaoEncontradoException();

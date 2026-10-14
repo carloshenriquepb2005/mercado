@@ -1,8 +1,8 @@
 package br.com.mercado.precificacao.port.input;
 
-import br.com.mercado.precificacao.core.model.ProdutoResult;
+import br.com.mercado.precificacao.core.model.Produto;
 
 public interface BuscarProdutoPorCodigoInputPort {
-    ProdutoResult executar(String codigoBarras);
+    Produto executar(String codigoBarras);
 }
 

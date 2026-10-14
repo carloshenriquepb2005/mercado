@@ -3,7 +3,7 @@ package br.com.mercado.precificacao.adapter.input;
 import br.com.mercado.precificacao.adapter.exception.GlobalExceptionHandler;
 import br.com.mercado.precificacao.adapter.input.controller.AuthController;
 import br.com.mercado.precificacao.core.exception.CredenciaisInvalidasException;
-import br.com.mercado.precificacao.core.model.LoginResult;
+import br.com.mercado.precificacao.core.model.Usuario;
 import br.com.mercado.precificacao.port.input.AutenticarUsuarioInputPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class AuthControllerTest {
     @Test
     void deveRetornarUsuarioAutenticado() throws Exception {
         when(autenticar.executar("carlos", "123"))
-                .thenReturn(new LoginResult(7L, "Carlos", 2));
+                .thenReturn(new Usuario(7L, "Carlos", 2));
 
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

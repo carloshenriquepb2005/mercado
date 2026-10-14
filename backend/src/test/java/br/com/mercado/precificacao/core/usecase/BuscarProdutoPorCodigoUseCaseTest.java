@@ -2,9 +2,7 @@ package br.com.mercado.precificacao.core.usecase;
 
 import br.com.mercado.precificacao.core.exception.CodigoBarrasInvalidoException;
 import br.com.mercado.precificacao.core.exception.ProdutoNaoEncontradoException;
-import br.com.mercado.precificacao.core.mapper.ProdutoMapper;
 import br.com.mercado.precificacao.core.model.Produto;
-import br.com.mercado.precificacao.core.model.ProdutoResult;
 import br.com.mercado.precificacao.port.output.BuscarProdutoOutputPort;
 import br.com.mercado.precificacao.port.output.BuscarProdutoSimilarOutputPort;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +31,7 @@ class BuscarProdutoPorCodigoUseCaseTest {
         buscarProdutoOutputPort = mock(BuscarProdutoOutputPort.class);
         buscarProdutoSimilarOutputPort = mock(BuscarProdutoSimilarOutputPort.class);
         useCase = new BuscarProdutoPorCodigoUseCase(
-                buscarProdutoOutputPort, buscarProdutoSimilarOutputPort, new ProdutoMapper());
+                buscarProdutoOutputPort, buscarProdutoSimilarOutputPort);
     }
 
     @Test
@@ -43,10 +41,10 @@ class BuscarProdutoPorCodigoUseCaseTest {
                 .thenReturn(Optional.of(produto()));
 
         // Act
-        ProdutoResult result = useCase.executar(" 001234 ");
+        Produto result = useCase.executar(" 001234 ");
 
         // Assert
-        assertThat(result.codigoBarras()).isEqualTo("001234");
+        assertThat(result.getCodigoBarras()).isEqualTo("001234");
         verify(buscarProdutoSimilarOutputPort, never()).buscarCodigoPrincipal("001234");
     }
 
@@ -60,10 +58,10 @@ class BuscarProdutoPorCodigoUseCaseTest {
                 .thenReturn(Optional.of(produto()));
 
         // Act
-        ProdutoResult result = useCase.executar("999");
+        Produto result = useCase.executar("999");
 
         // Assert
-        assertThat(result.id()).isEqualTo(1L);
+        assertThat(result.getId()).isEqualTo(1L);
     }
 
     @Test

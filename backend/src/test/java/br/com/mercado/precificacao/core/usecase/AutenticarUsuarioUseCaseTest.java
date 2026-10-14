@@ -1,7 +1,6 @@
 package br.com.mercado.precificacao.core.usecase;
 
 import br.com.mercado.precificacao.core.exception.CredenciaisInvalidasException;
-import br.com.mercado.precificacao.core.model.LoginResult;
 import br.com.mercado.precificacao.core.model.Usuario;
 import br.com.mercado.precificacao.port.output.BuscarUsuarioOutputPort;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,10 +33,10 @@ class AutenticarUsuarioUseCaseTest {
                     .thenReturn(Optional.of(new Usuario(10L, "Carlos", perfil)));
 
             // Act
-            LoginResult result = useCase.executar(" Carlos ", "senha123");
+            Usuario result = useCase.executar(" Carlos ", "senha123");
 
             // Assert
-            assertThat(result).isEqualTo(new LoginResult(10L, "Carlos", perfil));
+            assertThat(result).isEqualTo(new Usuario(10L, "Carlos", perfil));
         }
         verify(buscarUsuarioOutputPort, org.mockito.Mockito.times(3))
                 .buscarPorNomeESenha("Carlos", "senha123");

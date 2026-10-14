@@ -4,7 +4,6 @@ import br.com.mercado.precificacao.adapter.input.mapper.ProdutoInputMapper;
 import br.com.mercado.precificacao.adapter.input.request.AtualizarPrecoRequest;
 import br.com.mercado.precificacao.adapter.input.response.ProdutoResponse;
 import br.com.mercado.precificacao.adapter.input.swagger.ProdutoControllerSwagger;
-import br.com.mercado.precificacao.core.model.AtualizacaoPrecoCommand;
 import br.com.mercado.precificacao.port.input.AtualizarPrecoProdutoInputPort;
 import br.com.mercado.precificacao.port.input.BuscarProdutoPorCodigoInputPort;
 import jakarta.validation.Valid;
@@ -45,7 +44,7 @@ public class ProdutoController implements ProdutoControllerSwagger {
     public ResponseEntity<Void> atualizar(
             @PathVariable @Positive(message = "O ID do produto deve ser positivo.") Long id,
             @Valid @RequestBody AtualizarPrecoRequest request) {
-        atualizarPrecoInputPort.executar(id, new AtualizacaoPrecoCommand(request.novoPreco()));
+        atualizarPrecoInputPort.executar(id, request.novoPreco());
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,7 +1,7 @@
 package br.com.mercado.precificacao.port.input;
 
-import br.com.mercado.precificacao.core.model.LoginResult;
+import br.com.mercado.precificacao.core.model.Usuario;
 
 public interface AutenticarUsuarioInputPort {
-    LoginResult executar(String username, String password);
+    Usuario executar(String username, String password);
 }

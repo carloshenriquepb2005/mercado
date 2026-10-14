@@ -1,4 +1,4 @@
-package br.com.mercado.precificacao.core.mapper;
+package br.com.mercado.precificacao.adapter.input;
 
 import br.com.mercado.precificacao.adapter.input.mapper.ProdutoInputMapper;
 import br.com.mercado.precificacao.adapter.output.persistence.entity.ProdutoJpaEntity;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ProdutoMapperTest {
+class ProdutoInputMapperTest {
     @Test
     void deveMapearPersistenciaCoreERespostaSemPrecoDeCusto() {
         // Arrange
@@ -17,8 +17,7 @@ class ProdutoMapperTest {
 
         // Act
         var produto = new ProdutoPersistenceMapper().toDomain(entity);
-        var result = new ProdutoMapper().toResult(produto);
-        var response = new ProdutoInputMapper().toResponse(result);
+        var response = new ProdutoInputMapper().toResponse(produto);
 
         // Assert
         assertThat(response.id()).isEqualTo(1L);

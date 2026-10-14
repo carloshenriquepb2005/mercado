@@ -2,7 +2,6 @@ package br.com.mercado.precificacao.config;
 
 import br.com.mercado.precificacao.adapter.input.mapper.ProdutoInputMapper;
 import br.com.mercado.precificacao.adapter.output.persistence.mapper.ProdutoPersistenceMapper;
-import br.com.mercado.precificacao.core.mapper.ProdutoMapper;
 import br.com.mercado.precificacao.core.service.ProdutoService;
 import br.com.mercado.precificacao.core.usecase.AtualizarPrecoProdutoUseCase;
 import br.com.mercado.precificacao.core.usecase.AutenticarUsuarioUseCase;
@@ -27,10 +26,8 @@ public class BeanConfiguration {
     @Bean
     BuscarProdutoPorCodigoInputPort buscarProdutoPorCodigoInputPort(
             BuscarProdutoOutputPort buscarProdutoOutputPort,
-            BuscarProdutoSimilarOutputPort buscarProdutoSimilarOutputPort,
-            ProdutoMapper produtoMapper) {
-        return new BuscarProdutoPorCodigoUseCase(
-                buscarProdutoOutputPort, buscarProdutoSimilarOutputPort, produtoMapper);
+            BuscarProdutoSimilarOutputPort buscarProdutoSimilarOutputPort) {
+        return new BuscarProdutoPorCodigoUseCase(buscarProdutoOutputPort, buscarProdutoSimilarOutputPort);
     }
 
     @Bean
@@ -45,11 +42,6 @@ public class BeanConfiguration {
     @Bean
     ProdutoService produtoService() {
         return new ProdutoService();
-    }
-
-    @Bean
-    ProdutoMapper produtoMapper() {
-        return new ProdutoMapper();
     }
 
     @Bean

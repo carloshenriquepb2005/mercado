@@ -3,7 +3,7 @@ package br.com.mercado.precificacao.adapter.input.controller;
 import br.com.mercado.precificacao.adapter.input.request.LoginRequest;
 import br.com.mercado.precificacao.adapter.input.response.LoginResponse;
 import br.com.mercado.precificacao.adapter.input.swagger.AuthControllerSwagger;
-import br.com.mercado.precificacao.core.model.LoginResult;
+import br.com.mercado.precificacao.core.model.Usuario;
 import br.com.mercado.precificacao.port.input.AutenticarUsuarioInputPort;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ public class AuthController implements AuthControllerSwagger {
     @Override
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request) {
-        LoginResult result = autenticarUsuarioInputPort.executar(request.username(), request.password());
-        return new LoginResponse(result.codigo(), result.nome(), result.nome(), result.perfil());
+        Usuario usuario = autenticarUsuarioInputPort.executar(request.username(), request.password());
+        return new LoginResponse(usuario.codigo(), usuario.nome(), usuario.nome(), usuario.perfil());
     }
 }

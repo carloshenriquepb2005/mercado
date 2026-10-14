@@ -5,8 +5,7 @@ import br.com.mercado.precificacao.adapter.input.controller.ProdutoController;
 import br.com.mercado.precificacao.adapter.input.mapper.ProdutoInputMapper;
 import br.com.mercado.precificacao.core.exception.CodigoBarrasInvalidoException;
 import br.com.mercado.precificacao.core.exception.ProdutoNaoEncontradoException;
-import br.com.mercado.precificacao.core.model.AtualizacaoPrecoCommand;
-import br.com.mercado.precificacao.core.model.ProdutoResult;
+import br.com.mercado.precificacao.core.model.Produto;
 import br.com.mercado.precificacao.port.input.AtualizarPrecoProdutoInputPort;
 import br.com.mercado.precificacao.port.input.BuscarProdutoPorCodigoInputPort;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +46,7 @@ class ProdutoControllerTest {
 
     @Test
     void getDeveRetornarProduto() throws Exception {
-        when(buscar.executar("00123")).thenReturn(new ProdutoResult(1L, "00123", "Produto",
+        when(buscar.executar("00123")).thenReturn(new Produto(1L, "00123", "Produto",
                 new BigDecimal("9.50")));
         mockMvc.perform(get("/api/produtos/00123"))
                 .andExpect(status().isOk())
@@ -79,7 +78,7 @@ class ProdutoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"novoPreco\":10.50}"))
                 .andExpect(status().isNoContent());
-        verify(atualizar).executar(15L, new AtualizacaoPrecoCommand(new BigDecimal("10.50")));
+        verify(atualizar).executar(15L, new BigDecimal("10.50"));
     }
 
     @Test
