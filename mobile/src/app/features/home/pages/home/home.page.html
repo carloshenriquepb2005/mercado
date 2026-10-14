@@ -13,10 +13,10 @@
     </section>
 
     <section class="bento-grid" aria-label="Ações">
-      <app-home-action-card class="featured-card" title="Alterar Preço"
-        description="Inicie a alteração rápida de valores na gôndola."
-        icon="pricetag-outline" variant="featured" link="/scanner" />
-      <app-home-action-card title="Consultar Produto" icon="barcode-outline" link="/scanner" />
+      <app-home-action-card class="featured-card" title="Consulta de Estoque"
+        description="Consulte código, descrição, preço, NCM e estoque atual."
+        icon="barcode-outline" variant="featured" link="/scanner/consulta" />
+      <app-home-action-card title="Alterar Preço" icon="pricetag-outline" link="/scanner/alteracao" />
       <app-home-action-card title="Promoções" icon="calculator-outline" tone="orange"
         (selected)="comingSoon('Promoções')" />
       <app-home-action-card title="Etiquetas" icon="pricetag-outline" tone="muted"
@@ -28,10 +28,6 @@
         link="/ajustes" />
     </section>
 
-    <section class="sync-card" aria-label="Status de sincronização">
-      <div class="shelves" aria-hidden="true"><i></i><i></i><i></i></div>
-      <p>{{ connectivity.state() === 'online' ? 'Sistema conectado à API local' : 'Aguardando conexão com a API local' }}</p>
-    </section>
   </main>
   <app-bottom-navigation active="home" />
 </ion-content>

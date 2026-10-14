@@ -1,4 +1,4 @@
-<app-header backHref="/scanner" />
+<app-header backHref="/scanner/alteracao" />
 
 <ion-content class="page-content">
   <main class="page-shell pricing-shell">
@@ -12,15 +12,14 @@
           <label for="new-price">Novo preço</label>
           <div class="price-input" [class.invalid]="form.controls.novoPreco.invalid && form.controls.novoPreco.touched">
             <span>R$</span>
-            <ion-input id="new-price" formControlName="novoPreco" inputmode="decimal" placeholder="0,00" aria-describedby="price-help" />
+            <ion-input id="new-price" formControlName="novoPreco" inputmode="numeric" placeholder="0,00"
+              aria-describedby="price-help" (ionInput)="formatPrice($event.detail.value)" />
           </div>
-          <p id="price-help" class="field-help">Até 8 dígitos inteiros e 2 casas decimais.</p>
+          <p id="price-help" class="field-help">Digite apenas os números. Os centavos são preenchidos automaticamente.</p>
           @if (form.controls.novoPreco.invalid && form.controls.novoPreco.touched) {
             <p class="error-message">Informe um preço maior que zero com até duas casas decimais.</p>
           }
         </section>
-
-        <app-numeric-keypad [disabled]="saving()" (keyPress)="appendKey($event)" />
 
         @if (errorMessage()) { <p class="request-error" role="alert">{{ errorMessage() }}</p> }
 

@@ -1,0 +1,55 @@
+<app-header backHref="/scanner/consulta" />
+
+<ion-content class="page-content">
+  <main class="page-shell stock-shell">
+    @if (loading()) {
+      <app-page-state description="Consultando estoque…" />
+    } @else if (product(); as currentProduct) {
+      <section class="stock-card" aria-labelledby="stock-product-title">
+        <header>
+          <app-barcode-symbol />
+          <div>
+            <p class="eyebrow">PRODUTO ENCONTRADO</p>
+            <h1 id="stock-product-title">{{ currentProduct.descricao }}</h1>
+          </div>
+        </header>
+
+        <dl>
+          <div>
+            <dt>Código do produto</dt>
+            <dd>{{ currentProduct.codigoBarras }}</dd>
+          </div>
+          <div>
+            <dt>Descrição</dt>
+            <dd>{{ currentProduct.descricao }}</dd>
+          </div>
+          <div>
+            <dt>Código NCM</dt>
+            <dd>{{ currentProduct.codigoNcm || 'Não informado' }}</dd>
+          </div>
+          <div class="stock-row">
+            <dt>Estoque atual</dt>
+            <dd>
+              @if (currentProduct.estoqueAtual !== null) {
+                {{ currentProduct.estoqueAtual }} {{ currentProduct.unidade }}
+              } @else {
+                Não informado
+              }
+            </dd>
+          </div>
+          <div class="price-row">
+            <dt>Preço unitário</dt>
+            <dd>{{ currentProduct.precoVenda | brlCurrency }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <ion-button class="primary-action stock-action" expand="block" type="button" (click)="scanAnother()">
+        Consultar outro produto
+      </ion-button>
+    } @else {
+      <app-page-state kind="error" title="Não foi possível consultar o produto"
+        [description]="errorMessage()" actionLabel="Voltar ao scanner" (action)="scanAnother()" />
+    }
+  </main>
+</ion-content>

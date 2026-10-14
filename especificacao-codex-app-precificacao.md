@@ -125,8 +125,11 @@ src/main/java/br/com/mercado/precificacao/
 ID                int, PK, auto increment
 CODIGO_PRODUTO    varchar(13), unique ou index
 DESCRICAO         varchar(60)
+UN                unidade comercial do produto
 PRECO_UNITARIO    decimal(10,2)
 PRECO_CUSTO       decimal(10,2)
+CODIGO_NCM        código NCM do produto
+ESTOQUE_ATUAL     quantidade atual em estoque
 ```
 
 ## 14.2 Tabela `produtos_similares`

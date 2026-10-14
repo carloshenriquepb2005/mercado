@@ -25,7 +25,15 @@ describe('ProdutoApiService', () => {
     service.buscarPorCodigo('001 23').subscribe((product) => expect(product.id).toBe(1));
     const request = http.expectOne('http://servidor:8080/api/produtos/001%2023');
     expect(request.request.method).toBe('GET');
-    request.flush({ id: 1, codigoBarras: '00123', descricao: 'Produto', precoVenda: 9.5 });
+    request.flush({
+      id: 1,
+      codigoBarras: '00123',
+      descricao: 'Produto',
+      unidade: 'UN',
+      precoVenda: 9.5,
+      codigoNcm: '12345678',
+      estoqueAtual: 12.5
+    });
   });
 
   it('faz PATCH pelo ID e com o corpo correto', () => {

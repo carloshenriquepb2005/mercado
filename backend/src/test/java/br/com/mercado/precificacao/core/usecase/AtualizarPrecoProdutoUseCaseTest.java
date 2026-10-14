@@ -90,6 +90,7 @@ class AtualizarPrecoProdutoUseCaseTest {
     }
 
     private static Produto produto() {
-        return new Produto(15L, "123", "Produto", new BigDecimal("9.50"));
+        return new Produto(15L, "123", "Produto", "UN", new BigDecimal("9.50"), "12345678",
+                new BigDecimal("10.000"));
     }
 }

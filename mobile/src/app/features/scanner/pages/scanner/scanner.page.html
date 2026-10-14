@@ -14,9 +14,9 @@
         (action)="retryConnection()" />
     } @else {
       <section class="scanner-intro">
-        <p class="eyebrow">LEITOR DE PRODUTOS</p>
+        <p class="eyebrow">{{ mode === 'alteracao' ? 'ALTERAÇÃO DE PREÇO' : 'CONSULTA DE ESTOQUE' }}</p>
         <h1>Escaneie o código de barras</h1>
-        <p>Aponte a câmera para o EAN impresso na embalagem.</p>
+        <p>Aponte a câmera para o código impresso na embalagem.</p>
       </section>
 
       <app-scanner-frame />
@@ -34,3 +34,32 @@
   </main>
   <app-bottom-navigation active="scanner" />
 </ion-content>
+
+@if (manualModalOpen()) {
+  <div class="modal-backdrop" role="presentation" (click)="closeManualModal()">
+    <section class="manual-modal" role="dialog" aria-modal="true" aria-labelledby="manualCodeTitle"
+      (click)="$event.stopPropagation()">
+      <button class="close-button" type="button" (click)="closeManualModal()" aria-label="Fechar">
+        <ion-icon name="close-outline" />
+      </button>
+      <div class="modal-icon"><ion-icon name="barcode-outline" /></div>
+      <h2 id="manualCodeTitle">Digitar código</h2>
+      <p>Informe até 13 dígitos, preservando zeros à esquerda.</p>
+
+      <label for="manualProductCode">Código de barras</label>
+      <div class="code-field">
+        <input id="manualProductCode" type="text" inputmode="numeric" maxlength="13"
+          autocomplete="off" [formControl]="manualCode" (keydown.enter)="searchManualCode()" />
+      </div>
+      @if (manualCode.touched && manualCode.hasError('required')) {
+        <p class="field-error">Informe o código do produto.</p>
+      } @else if (manualCode.touched && manualCode.invalid) {
+        <p class="field-error">Use somente números, com no máximo 13 dígitos.</p>
+      }
+
+      <button class="confirm-button" type="button" (click)="searchManualCode()">
+        Buscar produto
+      </button>
+    </section>
+  </div>
+}

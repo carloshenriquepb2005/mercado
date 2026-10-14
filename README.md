@@ -38,7 +38,7 @@ mvn spring-boot:run
 Swagger: `http://localhost:8080/swagger-ui.html`  
 Health check: `http://localhost:8080/actuator/health`
 
-Na primeira abertura, configure e valide o servidor. Depois, faça login com o `nome` e a `senha` existentes na tabela `usuarios`. A Home mostra a conectividade e encaminha para o scanner. O menu Ajustes permite reconfigurar o servidor após validar a senha do caixa. Depois de salvar um preço, a tela de Sucesso exibe produto, código, preço anterior e novo preço.
+Na primeira abertura, configure e valide o servidor. Depois, faça login com o `nome` e a `senha` existentes na tabela `usuarios`. A Home mostra a conectividade e separa a consulta de estoque da alteração de preço. A consulta exibe código, descrição, preço unitário, NCM e estoque atual sem alterar dados. O menu Ajustes permite reconfigurar o servidor após validar a senha do caixa. Na alteração de preço, digite apenas os números: o campo mantém duas casas decimais e desloca a vírgula automaticamente. Depois de salvar, a tela de Sucesso exibe produto, código, preço anterior e novo preço.
 
 ```powershell
 cd mobile

@@ -6,7 +6,7 @@ import br.com.mercado.precificacao.core.model.Produto;
 public final class ProdutoInputMapper {
     public ProdutoResponse toResponse(Produto produto) {
         return new ProdutoResponse(produto.getId(), produto.getCodigoBarras(), produto.getDescricao(),
-                produto.getPrecoVenda());
+                produto.getUnidade(), produto.getPrecoVenda(), produto.getCodigoNcm(), produto.getEstoqueAtual());
     }
 }
 

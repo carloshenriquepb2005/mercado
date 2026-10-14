@@ -1,7 +1,0 @@
-<section class="numpad" aria-label="Teclado numérico">
-  @for (key of keys; track key) {
-    <button type="button" [disabled]="disabled()" (click)="keyPress.emit(key)">{{ key }}</button>
-  }
-  <button type="button" class="backspace" [disabled]="disabled()" aria-label="Apagar último dígito"
-    (click)="keyPress.emit('backspace')">⌫</button>
-</section>

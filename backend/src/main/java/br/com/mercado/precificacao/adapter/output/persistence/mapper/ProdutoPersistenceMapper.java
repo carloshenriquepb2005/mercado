@@ -6,7 +6,7 @@ import br.com.mercado.precificacao.core.model.Produto;
 public final class ProdutoPersistenceMapper {
     public Produto toDomain(ProdutoJpaEntity entity) {
         return new Produto(entity.getId().longValue(), entity.getCodigoProduto(), entity.getDescricao(),
-                entity.getPrecoUnitario());
+                entity.getUnidade(), entity.getPrecoUnitario(), entity.getCodigoNcm(), entity.getEstoqueAtual());
     }
 }
 

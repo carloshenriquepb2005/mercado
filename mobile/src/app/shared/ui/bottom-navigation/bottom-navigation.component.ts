@@ -20,7 +20,7 @@ export class BottomNavigationComponent {
     addIcons({ home, barcodeOutline, pricetagOutline, settingsOutline });
   }
 
-  goTo(url: '/home' | '/scanner' | '/ajustes'): void {
+  goTo(url: '/home' | '/scanner/consulta' | '/ajustes'): void {
     void this.router.navigateByUrl(url);
   }
 }

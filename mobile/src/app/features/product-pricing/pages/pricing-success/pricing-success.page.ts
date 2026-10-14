@@ -20,7 +20,7 @@ export class PricingSuccessPage {
 
   scanAnother(): void {
     this.success.clear();
-    void this.router.navigateByUrl('/scanner');
+    void this.router.navigateByUrl('/scanner/alteracao');
   }
 
   goHome(): void {

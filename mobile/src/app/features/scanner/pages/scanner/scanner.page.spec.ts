@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { AlertController, provideIonicAngular } from '@ionic/angular/standalone';
+import { ActivatedRoute, Router } from '@angular/router';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { of } from 'rxjs';
 import { ConnectivityService } from '../../../../core/connectivity/connectivity.service';
 import { NotificationService } from '../../../../core/feedback/notification.service';
@@ -9,12 +9,11 @@ import { BarcodeScannerService, ScannerPermissionDeniedError } from '../../data-
 import { ScannerPage } from './scanner.page';
 
 describe('ScannerPage', () => {
+  let scannerMode = 'consulta';
   const connection = { state: signal<'checking' | 'online' | 'offline'>('online'), check: jasmine.createSpy().and.returnValue(of(true)) };
   const scanner = jasmine.createSpyObj<BarcodeScannerService>('scanner', ['scan']);
   const router = jasmine.createSpyObj<Router>('router', ['navigate']);
-  const present = jasmine.createSpy().and.resolveTo();
   const notifications = jasmine.createSpyObj<NotificationService>('notifications', ['show']);
-  const alerts = { create: jasmine.createSpy().and.resolveTo({ present }) };
 
   beforeEach(() => {
     router.navigate.and.resolveTo(true);
@@ -23,9 +22,9 @@ describe('ScannerPage', () => {
       providers: [provideIonicAngular(),
         { provide: ConnectivityService, useValue: connection },
         { provide: BarcodeScannerService, useValue: scanner },
+        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => scannerMode } } } },
         { provide: Router, useValue: router },
-        { provide: NotificationService, useValue: notifications },
-        { provide: AlertController, useValue: alerts }]
+        { provide: NotificationService, useValue: notifications }]
     });
   });
 
@@ -34,6 +33,7 @@ describe('ScannerPage', () => {
     router.navigate.calls.reset();
     notifications.show.calls.reset();
     connection.state.set('online');
+    scannerMode = 'consulta';
   });
 
   it('verifica conexão ao iniciar', () => {
@@ -43,6 +43,14 @@ describe('ScannerPage', () => {
   });
 
   it('navega com o código lido', async () => {
+    scanner.scan.and.resolveTo('00123');
+    const page = TestBed.createComponent(ScannerPage).componentInstance;
+    await page.startScan();
+    expect(router.navigate).toHaveBeenCalledWith(['/consulta-estoque', '00123']);
+  });
+
+  it('encaminha para edição quando o modo é alteração', async () => {
+    scannerMode = 'alteracao';
     scanner.scan.and.resolveTo('00123');
     const page = TestBed.createComponent(ScannerPage).componentInstance;
     await page.startScan();
@@ -73,10 +81,30 @@ describe('ScannerPage', () => {
     expect(notifications.show).toHaveBeenCalled();
   });
 
-  it('abre a entrada manual', async () => {
+  it('abre a entrada manual no padrão de modal do aplicativo', () => {
+    const fixture = TestBed.createComponent(ScannerPage);
+    fixture.componentInstance.enterManually();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.manualModalOpen()).toBeTrue();
+    expect(fixture.nativeElement.querySelector('.manual-modal')).not.toBeNull();
+  });
+
+  it('valida e navega com o código digitado preservando zeros à esquerda', () => {
     const page = TestBed.createComponent(ScannerPage).componentInstance;
-    await page.enterManually();
-    expect(alerts.create).toHaveBeenCalled();
-    expect(present).toHaveBeenCalled();
+    page.enterManually();
+    page.manualCode.setValue('00123');
+    page.searchManualCode();
+    expect(router.navigate).toHaveBeenCalledWith(['/consulta-estoque', '00123']);
+    expect(page.manualModalOpen()).toBeFalse();
+  });
+
+  it('mantém o modal aberto quando o código manual é inválido', () => {
+    const page = TestBed.createComponent(ScannerPage).componentInstance;
+    page.enterManually();
+    page.manualCode.setValue('ABC');
+    page.searchManualCode();
+    expect(router.navigate).not.toHaveBeenCalled();
+    expect(page.manualCode.touched).toBeTrue();
+    expect(page.manualModalOpen()).toBeTrue();
   });
 });

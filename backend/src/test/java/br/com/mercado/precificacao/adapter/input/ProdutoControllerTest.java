@@ -51,13 +51,17 @@ class ProdutoControllerTest {
 
     @Test
     void getDeveRetornarProduto() throws Exception {
-        when(buscar.executar("00123")).thenReturn(new Produto(1L, "00123", "Produto",
-                new BigDecimal("9.50")));
+        when(buscar.executar("00123")).thenReturn(new Produto(1L, "00123", "Produto", "UN",
+                new BigDecimal("9.50"), "22021000", new BigDecimal("18.500")));
         mockMvc.perform(get("/api/produtos/00123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.codigoBarras").value("00123"))
+                .andExpect(jsonPath("$.descricao").value("Produto"))
+                .andExpect(jsonPath("$.unidade").value("UN"))
                 .andExpect(jsonPath("$.precoVenda").value(9.50))
+                .andExpect(jsonPath("$.codigoNcm").value("22021000"))
+                .andExpect(jsonPath("$.estoqueAtual").value(18.500))
                 .andExpect(content().string(not(containsString("precoCusto"))));
     }
 

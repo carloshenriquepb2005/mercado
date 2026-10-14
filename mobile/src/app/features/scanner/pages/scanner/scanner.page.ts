@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import type { OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-  AlertController,
   IonButton,
   IonContent,
+  IonIcon,
   IonSpinner,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { barcodeOutline, closeOutline } from 'ionicons/icons';
 import { ConnectivityService } from '../../../../core/connectivity/connectivity.service';
 import { NotificationService } from '../../../../core/feedback/notification.service';
 import { AppHeaderComponent } from '../../../../shared/ui/app-header/app-header.component';
@@ -20,7 +23,8 @@ import { BarcodeScannerService, ScannerPermissionDeniedError } from '../../data-
 @Component({
   selector: 'app-scanner-page',
   standalone: true,
-  imports: [IonButton, IonContent, IonSpinner, AppHeaderComponent, BottomNavigationComponent,
+  imports: [ReactiveFormsModule, IonButton, IonContent, IonIcon, IonSpinner,
+    AppHeaderComponent, BottomNavigationComponent,
     ConnectionStatusComponent, PageStateComponent, ScannerFrameComponent],
   templateUrl: './scanner.page.html',
   styleUrl: './scanner.page.scss',
@@ -29,11 +33,21 @@ import { BarcodeScannerService, ScannerPermissionDeniedError } from '../../data-
 export class ScannerPage implements OnInit {
   readonly connectivity = inject(ConnectivityService);
   private readonly scanner = inject(BarcodeScannerService);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly alerts = inject(AlertController);
   private readonly notifications = inject(NotificationService);
 
   readonly scanning = signal(false);
+  readonly manualModalOpen = signal(false);
+  readonly mode = this.route.snapshot.paramMap.get('modo') === 'alteracao' ? 'alteracao' : 'consulta';
+  readonly manualCode = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.maxLength(13), Validators.pattern(/^\d+$/)]
+  });
+
+  constructor() {
+    addIcons({ barcodeOutline, closeOutline });
+  }
 
   ngOnInit(): void {
     this.retryConnection();
@@ -53,7 +67,7 @@ export class ScannerPage implements OnInit {
           await this.presentMessage('O código lido não é um EAN numérico válido.');
           return;
         }
-        await this.router.navigate(['/produto', code]);
+        await this.navigateToProduct(code);
       }
     } catch (error: unknown) {
       const message = error instanceof ScannerPermissionDeniedError
@@ -65,28 +79,31 @@ export class ScannerPage implements OnInit {
     }
   }
 
-  async enterManually(): Promise<void> {
-    const alert = await this.alerts.create({
-      header: 'Digitar código',
-      message: 'Informe até 13 dígitos, preservando zeros à esquerda.',
-      inputs: [{ name: 'codigo', type: 'number', placeholder: 'Código de barras', attributes: { inputmode: 'numeric' } }],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Buscar',
-          handler: (data) => {
-            const code = String(data.codigo ?? '').trim();
-            if (!isValidProductCode(code)) return false;
-            void this.router.navigate(['/produto', code]);
-            return true;
-          }
-        }
-      ]
-    });
-    await alert.present();
+  enterManually(): void {
+    this.manualCode.reset();
+    this.manualModalOpen.set(true);
+  }
+
+  closeManualModal(): void {
+    this.manualModalOpen.set(false);
+  }
+
+  searchManualCode(): void {
+    const code = this.manualCode.value.trim();
+    if (this.manualCode.invalid || !isValidProductCode(code)) {
+      this.manualCode.markAsTouched();
+      return;
+    }
+    this.manualModalOpen.set(false);
+    void this.navigateToProduct(code);
   }
 
   private async presentMessage(message: string): Promise<void> {
     await this.notifications.show(message, { color: 'danger' });
+  }
+
+  private navigateToProduct(code: string): Promise<boolean> {
+    const destination = this.mode === 'alteracao' ? '/produto' : '/consulta-estoque';
+    return this.router.navigate([destination, code]);
   }
 }

@@ -16,7 +16,7 @@ Corpo: `{ "senha": "1234" }`. Verifica somente para leitura se o valor existe em
 
 ## `GET /api/produtos/{ean}`
 
-Retorna `200` com `id`, `codigoBarras`, `descricao` e `precoVenda`. Retorna `400` para código inválido e `404` quando principal/similar não forem encontrados.
+Retorna `200` com `id`, `codigoBarras`, `descricao`, `unidade`, `precoVenda`, `codigoNcm` e `estoqueAtual`. Os campos correspondem, respectivamente, a `ID`, `CODIGO_PRODUTO`, `DESCRICAO`, `UN`, `PRECO_UNITARIO`, `CODIGO_NCM` e `ESTOQUE_ATUAL` da tabela legada `produtos`. A operação é somente leitura. Retorna `400` para código inválido e `404` quando principal/similar não forem encontrados.
 
 ## `PATCH /api/produtos/{id}`
 

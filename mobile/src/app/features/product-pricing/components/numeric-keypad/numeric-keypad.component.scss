@@ -1,6 +1,0 @@
-.numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; border-radius: 16px; background: var(--app-surface-low); box-shadow: inset 0 0 0 1px rgb(189 201 197 / 18%); }
-button { min-height: 50px; border: 0; border-radius: 11px; background: white; color: var(--app-on-surface); box-shadow: 0 2px 5px rgb(24 29 27 / 6%); font: 650 20px/1 var(--ion-font-family); transition: transform 100ms ease, background 100ms ease; }
-button:active { transform: scale(.95); background: var(--app-surface-high); }
-button:disabled { opacity: .55; }
-.backspace { color: var(--ion-color-danger); }
-@media (max-height: 760px) { button { min-height: 44px; } }

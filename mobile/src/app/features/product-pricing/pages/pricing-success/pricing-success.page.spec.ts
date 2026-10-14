@@ -30,7 +30,7 @@ describe('PricingSuccessPage', () => {
     const page = TestBed.createComponent(PricingSuccessPage).componentInstance;
     page.scanAnother();
     expect(success.clear).toHaveBeenCalled();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/scanner');
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/scanner/alteracao');
   });
 
   it('permite voltar para a home', () => {

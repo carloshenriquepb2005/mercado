@@ -15,7 +15,6 @@ import { AppHeaderComponent } from '../../../../shared/ui/app-header/app-header.
 import { PageStateComponent } from '../../../../shared/ui/page-state/page-state.component';
 import { isValidProductCode } from '../../../../shared/utils/product-code.util';
 import { priceValidator } from '../../../../shared/validators/price.validator';
-import { NumericKeypadComponent } from '../../components/numeric-keypad/numeric-keypad.component';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ProdutoApiService } from '../../data-access/produto-api.service';
 import type { ProdutoResponse } from '../../models/produto-response';
@@ -25,7 +24,7 @@ import { PricingSuccessStore } from '../../state/pricing-success.store';
   selector: 'app-product-price-page',
   standalone: true,
   imports: [ReactiveFormsModule, IonButton, IonContent, IonInput, IonSpinner,
-    AppHeaderComponent, NumericKeypadComponent, PageStateComponent, ProductCardComponent],
+    AppHeaderComponent, PageStateComponent, ProductCardComponent],
   templateUrl: './product-price.page.html',
   styleUrl: './product-price.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -60,16 +59,23 @@ export class ProductPricePage implements OnInit {
     this.loadProduct(code);
   }
 
-  appendKey(key: string): void {
+  formatPrice(rawValue: string | null | undefined): void {
     if (this.saving()) return;
-    const current = this.form.controls.novoPreco.value;
-    if (key === 'backspace') {
-      this.form.controls.novoPreco.setValue(current.slice(0, -1));
+
+    const digits = String(rawValue ?? '')
+      .replace(/\D/g, '')
+      .replace(/^0+/, '')
+      .slice(0, 10);
+
+    if (!digits) {
+      this.form.controls.novoPreco.setValue('', { emitEvent: false });
       return;
     }
-    if (key === ',' && (current.includes(',') || current.includes('.'))) return;
-    const next = `${current}${key}`;
-    if (/^\d{0,8}([.,]\d{0,2})?$/.test(next)) this.form.controls.novoPreco.setValue(next);
+
+    const paddedDigits = digits.padStart(3, '0');
+    const integerPart = paddedDigits.slice(0, -2);
+    const decimalPart = paddedDigits.slice(-2);
+    this.form.controls.novoPreco.setValue(`${integerPart},${decimalPart}`, { emitEvent: false });
   }
 
   save(): void {
@@ -91,7 +97,7 @@ export class ProductPricePage implements OnInit {
   }
 
   cancel(): void {
-    void this.router.navigateByUrl('/scanner');
+    void this.router.navigateByUrl('/scanner/alteracao');
   }
 
   private loadProduct(code: string): void {

@@ -52,7 +52,8 @@ class ProdutoPersistenceAdapterTest {
     }
 
     private static ProdutoJpaEntity entity() {
-        return new ProdutoJpaEntity(1, "123", "Produto", new BigDecimal("9.50"));
+        return new ProdutoJpaEntity(1, "123", "Produto", "UN",
+                new BigDecimal("9.50"), "12345678", new BigDecimal("7.000"));
     }
 }
 

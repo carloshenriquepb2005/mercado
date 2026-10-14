@@ -9,7 +9,15 @@ import type { ProdutoResponse } from '../../models/produto-response';
 import { ProductPricePage } from './product-price.page';
 
 describe('ProductPricePage', () => {
-  const product: ProdutoResponse = { id: 15, codigoBarras: '00123', descricao: 'Produto', precoVenda: 9.5 };
+  const product: ProdutoResponse = {
+    id: 15,
+    codigoBarras: '00123',
+    descricao: 'Produto',
+    unidade: 'UN',
+    precoVenda: 9.5,
+    codigoNcm: '12345678',
+    estoqueAtual: 10
+  };
   const api = jasmine.createSpyObj<ProdutoApiService>('api', ['buscarPorCodigo', 'atualizarPreco']);
   const router = jasmine.createSpyObj<Router>('router', ['navigateByUrl']);
   const notifications = jasmine.createSpyObj<NotificationService>('notifications', ['show']);
@@ -75,14 +83,33 @@ describe('ProductPricePage', () => {
     expect(api.atualizarPreco).not.toHaveBeenCalled();
   });
 
-  it('opera teclado e cancela', () => {
+  it('formata os dígitos como preço com duas casas decimais fixas', () => {
     const page = TestBed.createComponent(ProductPricePage).componentInstance;
-    page.appendKey('1');
-    page.appendKey(',');
-    page.appendKey('5');
-    page.appendKey('backspace');
-    expect(page.form.controls.novoPreco.value).toBe('1,');
+    page.formatPrice('1');
+    expect(page.form.controls.novoPreco.value).toBe('0,01');
+    page.formatPrice('0,012');
+    expect(page.form.controls.novoPreco.value).toBe('0,12');
+    page.formatPrice('0,123');
+    expect(page.form.controls.novoPreco.value).toBe('1,23');
+    page.formatPrice('1,234');
+    expect(page.form.controls.novoPreco.value).toBe('12,34');
+  });
+
+  it('permite apagar, ignora caracteres e limita a oito casas inteiras', () => {
+    const page = TestBed.createComponent(ProductPricePage).componentInstance;
+    page.formatPrice('R$ 12,34');
+    expect(page.form.controls.novoPreco.value).toBe('12,34');
+    page.formatPrice('12,3');
+    expect(page.form.controls.novoPreco.value).toBe('1,23');
+    page.formatPrice('0,0');
+    expect(page.form.controls.novoPreco.value).toBe('');
+    page.formatPrice('1234567890123');
+    expect(page.form.controls.novoPreco.value).toBe('12345678,90');
+  });
+
+  it('cancela e volta ao scanner', () => {
+    const page = TestBed.createComponent(ProductPricePage).componentInstance;
     page.cancel();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/scanner');
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/scanner/alteracao');
   });
 });

@@ -24,8 +24,19 @@ export const routes: Routes = [
   },
   {
     path: 'scanner',
+    pathMatch: 'full',
+    redirectTo: 'scanner/consulta'
+  },
+  {
+    path: 'scanner/:modo',
     canActivate: [configurationGuard, authGuard],
     loadComponent: () => import('./features/scanner/pages/scanner/scanner.page').then((m) => m.ScannerPage)
+  },
+  {
+    path: 'consulta-estoque/:codigo',
+    canActivate: [configurationGuard, authGuard],
+    loadComponent: () =>
+      import('./features/product-pricing/pages/product-stock/product-stock.page').then((m) => m.ProductStockPage)
   },
   {
     path: 'produto/:codigo',

@@ -7,13 +7,20 @@ public final class Produto {
     private final Long id;
     private final String codigoBarras;
     private final String descricao;
+    private final String unidade;
     private final BigDecimal precoVenda;
+    private final String codigoNcm;
+    private final BigDecimal estoqueAtual;
 
-    public Produto(Long id, String codigoBarras, String descricao, BigDecimal precoVenda) {
+    public Produto(Long id, String codigoBarras, String descricao, String unidade,
+                   BigDecimal precoVenda, String codigoNcm, BigDecimal estoqueAtual) {
         this.id = id;
         this.codigoBarras = codigoBarras;
         this.descricao = descricao;
+        this.unidade = unidade;
         this.precoVenda = precoVenda;
+        this.codigoNcm = codigoNcm;
+        this.estoqueAtual = estoqueAtual;
     }
 
     public Long getId() {
@@ -28,8 +35,20 @@ public final class Produto {
         return descricao;
     }
 
+    public String getUnidade() {
+        return unidade;
+    }
+
     public BigDecimal getPrecoVenda() {
         return precoVenda;
+    }
+
+    public String getCodigoNcm() {
+        return codigoNcm;
+    }
+
+    public BigDecimal getEstoqueAtual() {
+        return estoqueAtual;
     }
 
     @Override
