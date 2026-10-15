@@ -1,11 +1,22 @@
-.logout { display: grid; place-items: center; width: 48px; height: 48px; margin-right: 8px; border: 0; border-radius: 50%; background: transparent; color: var(--ion-color-primary); }
-.logout:active { background: rgb(var(--ion-color-primary-rgb) / 10%); }
-.logout ion-icon { font-size: 24px; }
+.logout { display: grid; place-items: center; width: 44px; height: 44px; margin-right: 10px; border: 1px solid rgb(var(--ion-color-primary-rgb) / 22%); border-radius: 13px; background: var(--app-brand-soft); color: var(--app-brand-dark); box-shadow: 0 4px 10px rgb(var(--ion-color-primary-rgb) / 12%); }
+.logout:active { background: rgb(var(--ion-color-primary-rgb) / 18%); transform: scale(.96); }
+.logout ion-icon { font-size: 27px; }
 .home-shell { width: min(100%, 760px); min-height: calc(100% - 76px); margin: 0 auto; padding: 24px 16px 28px; }
 .welcome { margin-bottom: 22px; }
 .welcome h1 { margin: 0 0 6px; color: var(--app-on-surface); font-size: 25px; line-height: 32px; }
 .bento-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .featured-card, .settings-card { grid-column: 1 / -1; }
+.logout-backdrop { position: fixed; z-index: 200; inset: 0; display: grid; place-items: center; padding: 20px; background: rgb(8 28 69 / 52%); }
+.logout-modal { width: min(100%, 400px); padding: 28px 22px 22px; border-radius: 22px; background: #fff; box-shadow: 0 20px 54px rgb(0 0 0 / 30%); text-align: center; }
+.logout-modal-icon { display: grid; width: 58px; height: 58px; margin: 0 auto 16px; place-items: center; border-radius: 18px; background: #ffdad6; color: var(--ion-color-danger); }
+.logout-modal-icon ion-icon { font-size: 31px; }
+.logout-modal h2 { margin: 0; color: var(--app-on-surface); font-size: 22px; line-height: 29px; }
+.logout-modal p { margin: 8px 0 22px; color: var(--app-on-surface-variant); font-size: 14px; line-height: 20px; }
+.logout-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.logout-actions button { min-height: 48px; border-radius: 12px; font: 750 14px/1 var(--ion-font-family); }
+.cancel-logout { border: 1px solid var(--app-outline-variant); background: #fff; color: var(--app-on-surface); }
+.confirm-logout { border: 0; background: var(--ion-color-danger); color: #fff; box-shadow: 0 6px 14px rgb(var(--ion-color-danger-rgb) / 22%); }
+.logout-actions button:active { transform: scale(.98); }
 @media (min-width: 640px) {
   .bento-grid { grid-template-columns: repeat(3, 1fr); }
   .featured-card { grid-column: span 2; grid-row: span 2; }
