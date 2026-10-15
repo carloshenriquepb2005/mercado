@@ -4,7 +4,7 @@
   font-weight: 700;
   letter-spacing: .02em;
   --border-radius: 12px;
-  --box-shadow: 0 8px 20px rgb(0 94 83 / 18%);
+  --box-shadow: 0 8px 20px rgb(var(--ion-color-primary-rgb) / 22%);
 }
 
 .secondary-action {

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular/standalone';
 
 export interface NotificationOptions {
-  color?: 'danger' | 'primary';
+  color?: 'danger' | 'primary' | 'success';
   duration?: number;
 }
 

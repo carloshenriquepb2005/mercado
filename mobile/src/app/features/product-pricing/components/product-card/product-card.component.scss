@@ -1,9 +1,9 @@
-.product-card { display: grid; grid-template-columns: 66px 1fr; gap: 14px; padding: 18px; border: 1px solid rgb(189 201 197 / 38%); border-radius: 18px; background: white; box-shadow: 0 8px 24px rgb(24 29 27 / 6%); }
+.product-card { display: grid; grid-template-columns: 66px 1fr; gap: 14px; padding: 18px; border: 1px solid rgb(199 215 239 / 48%); border-radius: 18px; background: white; box-shadow: 0 8px 24px rgb(16 24 40 / 7%); }
 .eyebrow { margin: 0 0 4px; color: var(--ion-color-primary); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
 .product-copy { min-width: 0; }
 .product-copy h1 { margin: 0; overflow-wrap: anywhere; color: var(--app-on-surface); font-size: 20px; line-height: 27px; }
 .ean { margin: 5px 0 0; color: var(--app-on-surface-variant); font-size: 12px; }
-.current-price { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; margin-top: 3px; padding-top: 15px; border-top: 1px solid rgb(189 201 197 / 30%); }
+.current-price { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; margin-top: 3px; padding-top: 15px; border-top: 1px solid rgb(199 215 239 / 40%); }
 .current-price span { color: var(--app-on-surface-variant); font-size: 14px; }
 .current-price strong { font-size: 25px; }
 @media (max-height: 760px) { .product-card { padding: 14px; } }

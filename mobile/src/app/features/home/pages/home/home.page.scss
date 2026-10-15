@@ -1,5 +1,5 @@
 .logout { display: grid; place-items: center; width: 48px; height: 48px; margin-right: 8px; border: 0; border-radius: 50%; background: transparent; color: var(--ion-color-primary); }
-.logout:active { background: rgb(0 94 83 / 8%); }
+.logout:active { background: rgb(var(--ion-color-primary-rgb) / 10%); }
 .logout ion-icon { font-size: 24px; }
 .home-shell { width: min(100%, 760px); min-height: calc(100% - 76px); margin: 0 auto; padding: 24px 16px 28px; }
 .welcome { margin-bottom: 22px; }

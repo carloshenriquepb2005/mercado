@@ -62,6 +62,15 @@ describe('LoginPage', () => {
     expect(page.showPassword()).toBeTrue();
   });
 
+  it('exibe a marca SisBac no login', () => {
+    const fixture = TestBed.createComponent(LoginPage);
+    fixture.detectChanges();
+
+    const logo = fixture.nativeElement.querySelector('.brand-logo') as HTMLImageElement;
+    expect(logo.getAttribute('src')).toBe('assets/logo_sem_fundo.png');
+    expect(logo.getAttribute('alt')).toBe('SisBac');
+  });
+
   it('orienta a redefinição da senha', async () => {
     const page = TestBed.createComponent(LoginPage).componentInstance;
     await page.forgotPassword();

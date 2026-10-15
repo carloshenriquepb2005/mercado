@@ -6,13 +6,12 @@ import { finalize } from 'rxjs';
 import { AuthSessionService } from '../../../../core/auth/auth-session.service';
 import { NotificationService } from '../../../../core/feedback/notification.service';
 import { AppError } from '../../../../core/http/app-error';
-import { BarcodeSymbolComponent } from '../../../../shared/ui/barcode-symbol/barcode-symbol.component';
 import { AuthApiService } from '../../data-access/auth-api.service';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, IonButton, IonContent, IonSpinner, BarcodeSymbolComponent],
+  imports: [ReactiveFormsModule, IonButton, IonContent, IonSpinner],
   templateUrl: './login.page.html',
   styleUrl: './login.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

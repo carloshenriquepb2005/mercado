@@ -1,7 +1,7 @@
 .pricing-shell { padding-top: 22px; }
 form { display: grid; gap: 16px; margin-top: 20px; }
 .price-editor label { display: block; margin: 0 0 7px 3px; color: var(--ion-color-primary); font-size: 13px; font-weight: 700; }
-.price-input { display: flex; align-items: center; min-height: 64px; padding: 0 17px; border: 2px solid var(--ion-color-primary); border-radius: 13px; background: white; box-shadow: 0 4px 12px rgb(24 29 27 / 5%); }
+.price-input { display: flex; align-items: center; min-height: 64px; padding: 0 17px; border: 2px solid var(--ion-color-primary); border-radius: 13px; background: white; box-shadow: 0 4px 12px rgb(16 24 40 / 6%); }
 .price-input.invalid { border-color: var(--ion-color-danger); }
 .price-input > span { margin-right: 10px; color: var(--app-on-surface-variant); font-size: 22px; font-weight: 700; }
 .price-input ion-input { --padding-start: 0; --padding-end: 0; color: var(--app-on-surface); font-size: 26px; font-weight: 750; }

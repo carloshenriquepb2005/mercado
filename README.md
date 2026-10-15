@@ -1,4 +1,4 @@
-# App Satélite de Precificação
+# SisBac — App Satélite de Precificação
 
 Aplicação interna com login, Home operacional, leitura de código de barras, consulta de produtos e alteração exclusiva do preço de venda no MySQL legado. O celular comunica-se com uma API Spring Boot pela rede Wi-Fi local; o aplicativo nunca acessa o banco diretamente.
 
@@ -165,7 +165,7 @@ O APK debug também pode ser encontrado em:
 mobile/android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Conceda a permissão permanente de câmera em **Configurações → Apps → Precificação → Permissões → Câmera → Permitir durante o uso**.
+Conceda a permissão permanente de câmera em **Configurações → Apps → SisBac → Permissões → Câmera → Permitir durante o uso**.
 
 ### 7. Diagnóstico rápido de “Servidor indisponível”
 

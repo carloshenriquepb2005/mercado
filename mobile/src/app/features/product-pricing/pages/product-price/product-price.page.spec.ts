@@ -59,6 +59,8 @@ describe('ProductPricePage', () => {
     page.save();
     flushMicrotasks();
     expect(api.atualizarPreco).toHaveBeenCalledOnceWith(15, 10.5);
+    expect(notifications.show).toHaveBeenCalledWith(
+      'Preço atualizado com sucesso.', { color: 'success', duration: 1800 });
   }));
 
   it('bloqueia envio duplo enquanto a primeira requisição está ativa', () => {

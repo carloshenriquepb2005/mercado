@@ -1,8 +1,8 @@
-.summary-card { width: 100%; padding: 20px; border: 1px solid rgb(189 201 197 / 48%); border-radius: 17px; background: #fff; box-shadow: 0 7px 20px rgb(24 29 27 / 6%); text-align: left; }
+.summary-card { width: 100%; padding: 20px; border: 1px solid rgb(199 215 239 / 55%); border-radius: 17px; background: #fff; box-shadow: 0 7px 20px rgb(16 24 40 / 7%); text-align: left; }
 .product-row { display: grid; grid-template-columns: 62px 1fr; gap: 13px; align-items: center; }
 .product-row h2 { margin: 0; overflow-wrap: anywhere; font-size: 17px; line-height: 23px; }
 .product-row p { margin: 4px 0 0; color: var(--app-outline); font-size: 11px; }
-.prices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; padding-top: 15px; border-top: 1px solid rgb(189 201 197 / 45%); }
+.prices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; padding-top: 15px; border-top: 1px solid rgb(199 215 239 / 52%); }
 .prices div { display: grid; gap: 5px; }
 .prices small { color: var(--app-outline); font-size: 10px; font-weight: 750; text-transform: uppercase; }
 .prices del { color: var(--app-on-surface-variant); font-size: 18px; font-weight: 650; }
