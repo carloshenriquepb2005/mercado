@@ -33,3 +33,9 @@ Thumbs.db
 # Referência legada isolada (já existente; nunca incorporar artefatos dela)
 backend-antigo/node_modules/
 backend-antigo/dist/
+
+.github/copilot-instructions.md
+.github/skills/
+.github/instructions/foursys-*.instructions.md
+agentes_foursys/
+doc_projeto/
