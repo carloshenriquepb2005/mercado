@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-.page-state.error { min-height: auto; padding: 36px 24px; border: 1px solid rgb(189 201 197 / 45%); border-radius: 20px; background: white; box-shadow: 0 12px 34px rgb(24 29 27 / 7%); }
+.page-state.error { min-height: auto; padding: 36px 24px; border: 1px solid rgb(var(--ion-color-danger-rgb) / 28%); border-radius: 20px; background: white; box-shadow: 0 12px 34px rgb(16 24 40 / 8%); }
 ion-spinner { width: 44px; height: 44px; }
 h1 { margin: 16px 0 8px; color: var(--app-on-surface); font-size: 25px; line-height: 32px; }
 p { margin: 0; color: var(--app-on-surface-variant); font-size: 15px; line-height: 22px; }

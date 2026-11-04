@@ -115,7 +115,7 @@ export class ServerConfigurationPage implements OnInit, OnDestroy {
     if (!ip) return;
     this.config.save(ip);
     this.saved.set(true);
-    await this.notifications.show('Configuração salva com sucesso!');
+    await this.notifications.show('Configuração salva com sucesso!', { color: 'success' });
   }
 
   async goToLogin(): Promise<void> {

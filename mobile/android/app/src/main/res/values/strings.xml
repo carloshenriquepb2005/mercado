@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Precificação</string>
-    <string name="title_activity_main">Precificação</string>
+    <string name="app_name">SisBac</string>
+    <string name="title_activity_main">SisBac</string>
     <string name="package_name">br.com.mercado.precificacao</string>
     <string name="custom_url_scheme">br.com.mercado.precificacao</string>
 </resources>

@@ -28,4 +28,11 @@ describe('NotificationService', () => {
       message: 'Erro', duration: 1800, position: 'bottom', color: 'danger'
     });
   });
+
+  it('apresenta confirmações com a cor de sucesso', async () => {
+    await TestBed.inject(NotificationService).show('Salvo', { color: 'success' });
+    expect(toasts.create).toHaveBeenCalledWith({
+      message: 'Salvo', duration: 3000, position: 'bottom', color: 'success'
+    });
+  });
 });

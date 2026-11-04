@@ -1,0 +1,23 @@
+.splash-screen {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: calc(24px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));
+  background: #fff;
+}
+
+.splash-screen img {
+  width: min(66vw, 280px);
+  height: auto;
+}
+
+.splash-screen ion-spinner {
+  width: 34px;
+  height: 34px;
+  color: var(--ion-color-primary);
+}

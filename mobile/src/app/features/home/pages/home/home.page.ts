@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import type { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonIcon, Platform } from '@ionic/angular/standalone';
+import type { ViewDidEnter, ViewWillLeave } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { barcodeOutline, calculatorOutline, cubeOutline, logOutOutline, pricetagOutline, settingsOutline } from 'ionicons/icons';
+import { barcodeOutline, calculatorOutline, cubeOutline, logOut, pricetagOutline, settingsOutline } from 'ionicons/icons';
+import type { Subscription } from 'rxjs';
 import { AuthSessionService } from '../../../../core/auth/auth-session.service';
 import { ConnectivityService } from '../../../../core/connectivity/connectivity.service';
 import { NotificationService } from '../../../../core/feedback/notification.service';
@@ -21,21 +23,50 @@ import { HomeActionCardComponent } from '../../components/home-action-card/home-
   styleUrl: './home.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, ViewDidEnter, ViewWillLeave {
   readonly connectivity = inject(ConnectivityService);
   readonly session = inject(AuthSessionService);
+  readonly logoutModalOpen = signal(false);
   private readonly router = inject(Router);
   private readonly notifications = inject(NotificationService);
+  private readonly platform = inject(Platform);
+  private backButtonSubscription: Subscription | null = null;
 
   constructor() {
-    addIcons({ barcodeOutline, calculatorOutline, cubeOutline, logOutOutline, pricetagOutline, settingsOutline });
+    addIcons({ barcodeOutline, calculatorOutline, cubeOutline, logOut, pricetagOutline, settingsOutline });
   }
 
   ngOnInit(): void {
     this.connectivity.check().subscribe();
   }
 
-  logout(): void {
+  ionViewDidEnter(): void {
+    this.backButtonSubscription?.unsubscribe();
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
+      if (this.logoutModalOpen()) {
+        this.cancelLogout();
+        return;
+      }
+      this.requestLogout();
+    });
+  }
+
+  ionViewWillLeave(): void {
+    this.backButtonSubscription?.unsubscribe();
+    this.backButtonSubscription = null;
+    this.cancelLogout();
+  }
+
+  requestLogout(): void {
+    this.logoutModalOpen.set(true);
+  }
+
+  cancelLogout(): void {
+    this.logoutModalOpen.set(false);
+  }
+
+  confirmLogout(): void {
+    this.cancelLogout();
     this.session.end();
     void this.router.navigateByUrl('/login', { replaceUrl: true });
   }

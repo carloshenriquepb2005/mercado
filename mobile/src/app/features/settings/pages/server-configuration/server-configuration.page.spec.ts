@@ -60,6 +60,8 @@ describe('ServerConfigurationPage', () => {
 
     await page.save();
     expect(config.save).toHaveBeenCalledWith('192.168.1.10');
+    expect(notifications.show).toHaveBeenCalledWith(
+      'Configuração salva com sucesso!', { color: 'success' });
     await page.goToLogin();
     expect(session.end).toHaveBeenCalled();
     expect(router.navigateByUrl).toHaveBeenCalledWith('/login', { replaceUrl: true });

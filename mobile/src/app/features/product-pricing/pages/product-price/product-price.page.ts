@@ -121,7 +121,7 @@ export class ProductPricePage implements OnInit {
       previousPrice: this.previousPrice(),
       newPrice
     });
-    await this.notifications.show('Preço atualizado com sucesso.', { duration: 1800 });
+    await this.notifications.show('Preço atualizado com sucesso.', { color: 'success', duration: 1800 });
     await this.router.navigateByUrl('/sucesso');
   }
 

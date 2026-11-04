@@ -1,0 +1,11 @@
+<ion-app>
+  <ion-router-outlet />
+
+  @if (showingSplash()) {
+    <section class="splash-screen" role="status" aria-live="polite" aria-label="Carregando SisBac">
+      <img src="assets/logo_com_fundo.png" alt="SisBac" />
+      <ion-spinner name="crescent" aria-hidden="true" />
+      <span class="sr-only">Carregando aplicativo</span>
+    </section>
+  }
+</ion-app>

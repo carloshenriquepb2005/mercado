@@ -16,6 +16,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppHeaderComponent {
-  readonly title = input('Precificação');
+  readonly title = input<string | null>(null);
   readonly backHref = input<string | null>(null);
 }

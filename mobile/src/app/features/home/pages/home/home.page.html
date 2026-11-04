@@ -1,6 +1,6 @@
 <app-header>
-  <button class="logout" type="button" (click)="logout()" aria-label="Sair da conta">
-    <ion-icon name="log-out-outline" />
+  <button class="logout" type="button" (click)="requestLogout()" aria-label="Sair da conta">
+    <ion-icon name="log-out" />
   </button>
 </app-header>
 
@@ -31,3 +31,18 @@
   </main>
   <app-bottom-navigation active="home" />
 </ion-content>
+
+@if (logoutModalOpen()) {
+  <div class="logout-backdrop" role="presentation" (click)="cancelLogout()">
+    <section class="logout-modal" role="dialog" aria-modal="true" aria-labelledby="logoutTitle"
+      aria-describedby="logoutDescription" (click)="$event.stopPropagation()">
+      <div class="logout-modal-icon" aria-hidden="true"><ion-icon name="log-out" /></div>
+      <h2 id="logoutTitle">Sair do aplicativo?</h2>
+      <p id="logoutDescription">Sua sessão será encerrada e será necessário entrar novamente.</p>
+      <div class="logout-actions">
+        <button class="cancel-logout" type="button" (click)="cancelLogout()">Cancelar</button>
+        <button class="confirm-logout" type="button" (click)="confirmLogout()">Sair</button>
+      </div>
+    </section>
+  </div>
+}

@@ -4,7 +4,7 @@
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
   padding: 7px 12px calc(7px + env(safe-area-inset-bottom));
   border-radius: 16px 16px 0 0; background: #fff;
-  box-shadow: 0 -3px 14px rgb(24 29 27 / 8%);
+  box-shadow: 0 -3px 14px rgb(16 24 40 / 9%);
 }
 button {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
@@ -12,6 +12,6 @@ button {
   background: transparent; color: var(--app-on-surface-variant); text-decoration: none;
   font: 600 11px/14px var(--ion-font-family);
 }
-button.active { background: #00796b; color: #fff; opacity: 1; }
+button.active { background: var(--app-brand-dark); color: #fff; opacity: 1; }
 button:disabled { opacity: .48; }
 ion-icon { font-size: 23px; }
