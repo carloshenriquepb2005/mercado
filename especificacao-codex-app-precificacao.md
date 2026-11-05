@@ -61,8 +61,6 @@ Antes de instalar o plugin de scanner, verificar qual pacote possui suporte ativ
 
 # 5. Estrutura geral do repositório
 
-Criar um único repositório com a seguinte estrutura:
-
 ```text
 app-precificacao/
 ├── backend/
@@ -158,8 +156,6 @@ Não implementar cache offline.
 
 # 39. Padrões de qualidade
 
-O Codex deve:
-
 - usar nomes claros com sufixo do pacote pertencente a classe, exceto model. Ex para ports: NomeOutputPort;
 - não expor entidades JPA;
 - não versionar secrets;
@@ -216,7 +212,7 @@ Gerar APK assinado.
 
 # 50. Restrições
 
-O Codex não deve:
+Não se deve:
 
 - alterar tabelas;
 - criar migrations;
