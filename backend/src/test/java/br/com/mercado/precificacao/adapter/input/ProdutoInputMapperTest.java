@@ -11,10 +11,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ProdutoInputMapperTest {
     @Test
-    void deveMapearPersistenciaCoreERespostaSemPrecoDeCusto() {
+    void deveMapearPersistenciaCoreEResposta() {
         // Arrange
         ProdutoJpaEntity entity = new ProdutoJpaEntity(
-                1, "123", "Produto", "CX", new BigDecimal("9.50"), "12345678",
+                1, "123", "Produto", "CX", new BigDecimal("9.50"), new BigDecimal("6.90"), "12345678",
                 new BigDecimal("12.500"));
 
         // Act
@@ -27,9 +27,8 @@ class ProdutoInputMapperTest {
         assertThat(response.descricao()).isEqualTo("Produto");
         assertThat(response.unidade()).isEqualTo("CX");
         assertThat(response.precoVenda()).isEqualByComparingTo("9.50");
+        assertThat(response.precoCusto()).isEqualByComparingTo("6.90");
         assertThat(response.codigoNcm()).isEqualTo("12345678");
         assertThat(response.estoqueAtual()).isEqualByComparingTo("12.500");
-        assertThat(response.getClass().getDeclaredFields()).extracting("name")
-                .doesNotContain("precoCusto");
     }
 }

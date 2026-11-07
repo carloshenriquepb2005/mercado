@@ -15,6 +15,7 @@ describe('ProductPricePage', () => {
     descricao: 'Produto',
     unidade: 'UN',
     precoVenda: 9.5,
+    precoCusto: 6.9,
     codigoNcm: '12345678',
     estoqueAtual: 10
   };

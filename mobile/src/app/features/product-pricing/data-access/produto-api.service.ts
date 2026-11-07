@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { ApiConfigService } from '../../../core/config/api-config.service';
+import type { EntradaEstoqueRequest, EntradaEstoqueResponse } from '../models/entrada-estoque';
 import type { ProdutoResponse } from '../models/produto-response';
 
 @Injectable({ providedIn: 'root' })
@@ -16,5 +17,13 @@ export class ProdutoApiService {
   atualizarPreco(produtoId: number, novoPreco: number): Observable<void> {
     return this.http.patch<void>(`${this.config.baseUrl()}/api/produtos/${produtoId}`, { novoPreco });
   }
-}
 
+  registrarEntradaEstoque(produtoId: number, entrada: EntradaEstoqueRequest): Observable<EntradaEstoqueResponse> {
+    const { quantidade, precoCusto, dataVencimento } = entrada;
+    const body: EntradaEstoqueRequest = dataVencimento
+      ? { quantidade, precoCusto, dataVencimento }
+      : { quantidade, precoCusto };
+    return this.http.post<EntradaEstoqueResponse>(
+      `${this.config.baseUrl()}/api/produtos/${produtoId}/entrada-estoque`, body);
+  }
+}

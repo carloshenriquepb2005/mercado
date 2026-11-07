@@ -53,7 +53,8 @@ app/
 │   ├── home/
 │   ├── product-pricing/
 │   ├── scanner/
-│   └── settings/
+│   ├── settings/
+│   └── stock-entry/
 ├── shared/     # UI, pipes, validadores e utilitários reutilizáveis
 ├── app.component.ts
 ├── app.config.ts

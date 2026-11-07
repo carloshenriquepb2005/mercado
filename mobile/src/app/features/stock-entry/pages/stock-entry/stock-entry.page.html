@@ -1,0 +1,127 @@
+<app-header backHref="/scanner/entrada" />
+
+<ion-content class="page-content">
+  <main class="page-shell entry-shell">
+    @if (loading()) {
+      <app-page-state description="Consultando produto." />
+    } @else if (product(); as currentProduct) {
+      <section class="product-card" aria-labelledby="entry-product-title">
+        <header>
+          <app-barcode-symbol />
+          <div>
+            <p class="eyebrow">ENTRADA NO ESTOQUE</p>
+            <h1 id="entry-product-title">{{ currentProduct.descricao }}</h1>
+          </div>
+        </header>
+
+        <dl>
+          <div>
+            <dt>Código do produto</dt>
+            <dd>{{ currentProduct.codigoBarras }}</dd>
+          </div>
+          <div>
+            <dt>Descrição</dt>
+            <dd>{{ currentProduct.descricao }}</dd>
+          </div>
+          <div>
+            <dt>Unidade</dt>
+            <dd>{{ currentProduct.unidade || '—' }}</dd>
+          </div>
+          <div>
+            <dt>Preço unitário</dt>
+            <dd class="unit-price">
+              @if (currentProduct.precoVenda !== null) { {{ currentProduct.precoVenda | brlCurrency }} } @else { — }
+            </dd>
+          </div>
+          <div>
+            <dt>Preço de custo</dt>
+            <dd class="current-cost">
+              @if (currentProduct.precoCusto !== null) { {{ currentProduct.precoCusto | brlCurrency }} } @else { — }
+            </dd>
+          </div>
+          <div class="stock-row">
+            <dt>Estoque atual</dt>
+            <dd>
+              @if (currentProduct.estoqueAtual !== null) {
+                {{ currentProduct.estoqueAtual }} {{ currentProduct.unidade }}
+              } @else {
+                —
+              }
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      @if (refreshNotice()) {
+        <p class="refresh-notice" role="status">{{ refreshNotice() }}</p>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+        <section class="field">
+          <label for="entry-quantity">Quantidade comprada</label>
+          <div class="field-input" [class.invalid]="form.controls.quantidade.invalid && form.controls.quantidade.touched">
+            <ion-input id="entry-quantity" formControlName="quantidade" inputmode="decimal" placeholder="0"
+              aria-describedby="quantity-help" />
+            <span>{{ currentProduct.unidade }}</span>
+          </div>
+          <p id="quantity-help" class="field-help">Use até três casas decimais (ex.: 12,5).</p>
+          @if (form.controls.quantidade.invalid && form.controls.quantidade.touched) {
+            <p class="error-message">Informe uma quantidade maior que zero, com até três casas decimais.</p>
+          }
+          @if (projectedStock() !== null) {
+            <p class="projection">Estoque ficará: <strong>{{ currentProduct.estoqueAtual ?? 0 }} → {{ projectedStock() }}</strong></p>
+          }
+        </section>
+
+        <section class="field">
+          <label for="entry-cost">Novo preço de custo</label>
+          <div class="field-input" [class.invalid]="form.controls.precoCusto.invalid && form.controls.precoCusto.touched">
+            <span class="prefix">R$</span>
+            <ion-input id="entry-cost" formControlName="precoCusto" inputmode="numeric" placeholder="0,00"
+              aria-describedby="cost-help" (ionInput)="formatCost($event.detail.value)" />
+          </div>
+          <p id="cost-help" class="field-help">Digite apenas os números. Os centavos são preenchidos automaticamente.</p>
+          @if (form.controls.precoCusto.invalid && form.controls.precoCusto.touched) {
+            <p class="error-message">Informe um preço de custo maior que zero com até duas casas decimais.</p>
+          }
+          @if (costAboveSalePrice()) {
+            <p class="cost-warning" role="status">Atenção: o custo informado é maior que o preço unitário atual.</p>
+          }
+        </section>
+
+        <section class="field">
+          <label for="entry-expiry">Data de vencimento <small>(opcional)</small></label>
+          <div class="field-input" [class.invalid]="form.controls.dataVencimento.invalid && form.controls.dataVencimento.touched">
+            <ion-input id="entry-expiry" formControlName="dataVencimento" type="date" aria-describedby="expiry-help" />
+          </div>
+          <p id="expiry-help" class="field-help">Se ficar em branco, o vencimento cadastrado não é alterado.</p>
+          @if (form.controls.dataVencimento.invalid && form.controls.dataVencimento.touched) {
+            <p class="error-message">Informe uma data válida.</p>
+          }
+        </section>
+
+        @if (errorMessage()) { <p class="request-error" role="alert">{{ errorMessage() }}</p> }
+
+        <div class="form-actions">
+          @if (awaitingRefresh()) {
+            <ion-button class="primary-action" expand="block" type="button" [disabled]="refreshing()" (click)="refresh()">
+              @if (refreshing()) { <ion-spinner name="crescent" /> } @else { Atualizar dados do produto }
+            </ion-button>
+          } @else {
+            <ion-button class="primary-action" expand="block" type="submit"
+              [disabled]="form.invalid || saving() || refreshing() || !product()">
+              @if (saving()) { <ion-spinner name="crescent" /> } @else { Registrar entrada }
+            </ion-button>
+          }
+          <ion-button class="secondary-action" fill="clear" expand="block" type="button"
+            [disabled]="saving()" (click)="cancel()">
+            Cancelar
+          </ion-button>
+        </div>
+      </form>
+    } @else {
+      <app-page-state kind="error" title="Não foi possível abrir o produto"
+        [description]="errorMessage()" actionLabel="Voltar ao scanner" (action)="cancel()" />
+    }
+  </main>
+</ion-content>

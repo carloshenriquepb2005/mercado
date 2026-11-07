@@ -38,7 +38,7 @@ mvn spring-boot:run
 Swagger: `http://localhost:8080/swagger-ui.html`  
 Health check: `http://localhost:8080/actuator/health`
 
-Na primeira abertura, configure e valide o servidor. Depois, faça login com o `nome` e a `senha` existentes na tabela `usuarios`. A Home mostra a conectividade e separa a consulta de estoque da alteração de preço. A consulta exibe código, descrição, preço unitário, NCM e estoque atual sem alterar dados. O menu Ajustes permite reconfigurar o servidor após validar a senha do caixa. Na alteração de preço, digite apenas os números: o campo mantém duas casas decimais e desloca a vírgula automaticamente. Depois de salvar, a tela de Sucesso exibe produto, código, preço anterior e novo preço.
+Na primeira abertura, configure e valide o servidor. Depois, faça login com o `nome` e a `senha` existentes na tabela `usuarios`. A Home mostra a conectividade e separa a consulta de estoque, a alteração de preço e a entrada no estoque. A consulta exibe código, descrição, preço unitário, NCM e estoque atual sem alterar dados. O menu Ajustes permite reconfigurar o servidor após validar a senha do caixa. Na alteração de preço, digite apenas os números: o campo mantém duas casas decimais e desloca a vírgula automaticamente. Depois de salvar, a tela de Sucesso exibe produto, código, preço anterior e novo preço. Na entrada no estoque, escaneie o produto, informe a quantidade comprada, o novo preço de custo e, se quiser, a data de vencimento (em branco, o vencimento cadastrado não muda); a tela de Sucesso mostra estoque e custo anteriores e atuais.
 
 ```powershell
 cd mobile
@@ -180,6 +180,6 @@ Verifique nesta ordem:
 
 ## Limites e segurança do legado
 
-Não há endpoints para criar, substituir ou excluir produtos ou usuários. A atualização usa uma query explícita que modifica apenas `PRECO_UNITARIO` pelo `ID`; os acessos a `usuarios` e `senha` são somente leitura. Hibernate está com `ddl-auto: none`; não há migrations. Senha, SQL interno e stack traces não são enviados ao aplicativo.
+Não há endpoints para criar, substituir ou excluir produtos ou usuários. A alteração de preço usa uma query explícita que modifica apenas `PRECO_UNITARIO` pelo `ID`, e a entrada no estoque usa um único `UPDATE` explícito pelo `ID` que soma `ESTOQUE_ATUAL` no banco e grava `PRECO_CUSTO`, `DATA_ATUALIZACAO` e, só quando informada, `DATA_VENCIMENTO`; os acessos a `usuarios` e `senha` são somente leitura. Hibernate está com `ddl-auto: none`; não há migrations. Senha, SQL interno e stack traces não são enviados ao aplicativo.
 
 Consulte [arquitetura](docs/arquitetura.md), [API](docs/api.md), [implantação](docs/implantacao.md) e [testes](docs/testes.md).

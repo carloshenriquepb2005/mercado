@@ -54,6 +54,20 @@ describe('HomePage', () => {
     expect(fixture.nativeElement.querySelector('.sync-card')).toBeNull();
   });
 
+  it('exibe o card ativo Entrada no Estoque no lugar de Etiquetas', () => {
+    const fixture = TestBed.createComponent(HomePage);
+    fixture.detectChanges();
+
+    const links = Array.from(fixture.nativeElement.querySelectorAll('a')) as HTMLAnchorElement[];
+    const entryLink = links.find((link) => link.textContent?.includes('Entrada no Estoque'));
+    const text = (fixture.nativeElement.querySelector('.bento-grid') as HTMLElement).textContent as string;
+
+    expect(entryLink?.getAttribute('href')).toBe('/scanner/entrada');
+    expect(entryLink?.classList).toContain('compact');
+    expect(text).not.toContain('Etiquetas');
+    expect(text).toContain('Inventário');
+  });
+
   it('solicita confirmação antes de encerrar a sessão pelo botão', () => {
     spyOn(TestBed.inject(Router), 'navigateByUrl').and.resolveTo(true);
     const fixture = TestBed.createComponent(HomePage);

@@ -16,10 +16,20 @@ Corpo: `{ "senha": "1234" }`. Verifica somente para leitura se o valor existe em
 
 ## `GET /api/produtos/{ean}`
 
-Retorna `200` com `id`, `codigoBarras`, `descricao`, `unidade`, `precoVenda`, `codigoNcm` e `estoqueAtual`. Os campos correspondem, respectivamente, a `ID`, `CODIGO_PRODUTO`, `DESCRICAO`, `UN`, `PRECO_UNITARIO`, `CODIGO_NCM` e `ESTOQUE_ATUAL` da tabela legada `produtos`. A operação é somente leitura. Retorna `400` para código inválido e `404` quando principal/similar não forem encontrados.
+Retorna `200` com `id`, `codigoBarras`, `descricao`, `unidade`, `precoVenda`, `precoCusto`, `codigoNcm` e `estoqueAtual`. Os campos correspondem, respectivamente, a `ID`, `CODIGO_PRODUTO`, `DESCRICAO`, `UN`, `PRECO_UNITARIO`, `PRECO_CUSTO`, `CODIGO_NCM` e `ESTOQUE_ATUAL` da tabela legada `produtos`; `unidade`, `precoVenda`, `precoCusto`, `codigoNcm` e `estoqueAtual` podem ser nulos. A operação é somente leitura. Retorna `400` para código inválido e `404` quando principal/similar não forem encontrados.
 
 ## `PATCH /api/produtos/{id}`
 
 Corpo: `{ "novoPreco": 10.50 }`. Atualiza apenas `PRECO_UNITARIO` pelo ID e retorna `204`. ID/preço inválidos retornam `400`; produto inexistente retorna `404`.
+
+## `POST /api/produtos/{id}/entrada-estoque`
+
+Corpo: `{ "quantidade": 12.500, "precoCusto": 7.35, "dataVencimento": "2027-03-15" }`. `dataVencimento` é opcional (`yyyy-MM-dd`); omitida, nula ou vazia significa "não informada" e a coluna não é alterada.
+
+Em **uma única instrução `UPDATE`** pelo `ID`, soma `quantidade` a `ESTOQUE_ATUAL` (nulo conta como `0`), grava `PRECO_CUSTO` e `DATA_ATUALIZACAO` (data atual em `America/Sao_Paulo`) e, somente se informada, `DATA_VENCIMENTO`. Nenhuma outra coluna é alterada. A soma é feita no banco, portanto não sobrescreve vendas registradas ao mesmo tempo pelo sistema legado, e a instrução só altera a linha se o estoque resultante não passar de `9999999.999`.
+
+Regras: `quantidade` obrigatória, maior que zero, até 3 casas decimais e no máximo `9999999.999`; `precoCusto` obrigatório, maior que zero, até 2 casas decimais e no máximo `99999999.99`.
+
+Retorna `200` com `produtoId`, `estoqueAnterior`, `estoqueAtual`, `precoCustoAnterior` (pode ser nulo) e `precoCustoAtual`; `estoqueAtual` e `precoCustoAtual` são relidos do banco após a gravação. Dados inválidos (inclusive data inexistente ou estoque acima do limite) retornam `400` com `DADOS_INVALIDOS`; produto inexistente retorna `404`; banco indisponível retorna `503`. A data de vencimento e a de atualização não são devolvidas.
 
 Erros seguem o contrato `timestamp`, `status`, `error`, `code`, `message` e `path`. Indisponibilidade de banco retorna `503`. A documentação interativa fica em `/swagger-ui.html`.

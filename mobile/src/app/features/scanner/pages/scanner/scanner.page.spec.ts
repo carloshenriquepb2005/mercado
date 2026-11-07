@@ -57,6 +57,23 @@ describe('ScannerPage', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/produto', '00123']);
   });
 
+  it('encaminha para a entrada no estoque quando o modo é entrada', async () => {
+    scannerMode = 'entrada';
+    scanner.scan.and.resolveTo('00123');
+    const page = TestBed.createComponent(ScannerPage).componentInstance;
+    await page.startScan();
+    expect(page.title()).toBe('ENTRADA NO ESTOQUE');
+    expect(router.navigate).toHaveBeenCalledWith(['/entrada-estoque', '00123']);
+  });
+
+  it('usa o modo consulta quando o modo da rota é desconhecido', async () => {
+    scannerMode = 'qualquer';
+    scanner.scan.and.resolveTo('00123');
+    const page = TestBed.createComponent(ScannerPage).componentInstance;
+    await page.startScan();
+    expect(router.navigate).toHaveBeenCalledWith(['/consulta-estoque', '00123']);
+  });
+
   it('não abre scanner quando servidor está offline', async () => {
     connection.state.set('offline');
     const page = TestBed.createComponent(ScannerPage).componentInstance;

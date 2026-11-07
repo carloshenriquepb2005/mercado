@@ -14,6 +14,7 @@ describe('ProductStockPage', () => {
     descricao: 'Arroz integral',
     unidade: 'UN',
     precoVenda: 9.5,
+    precoCusto: 6.9,
     codigoNcm: '10063021',
     estoqueAtual: 12.5
   };

@@ -4,7 +4,9 @@ import br.com.mercado.precificacao.adapter.input.response.ApiErrorResponse;
 import br.com.mercado.precificacao.core.exception.CodigoBarrasInvalidoException;
 import br.com.mercado.precificacao.core.exception.CredenciaisInvalidasException;
 import br.com.mercado.precificacao.core.exception.PrecoInvalidoException;
+import br.com.mercado.precificacao.core.exception.EstoqueLimiteExcedidoException;
 import br.com.mercado.precificacao.core.exception.ProdutoNaoEncontradoException;
+import br.com.mercado.precificacao.core.exception.QuantidadeInvalidaException;
 import br.com.mercado.precificacao.core.exception.SenhaCaixaInvalidaException;
 import br.com.mercado.precificacao.core.exception.ServidorNaoValidadoException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,7 +54,8 @@ public class GlobalExceptionHandler {
         return error(HttpStatus.NOT_FOUND, "PRODUTO_NAO_ENCONTRADO", exception.getMessage(), request);
     }
 
-    @ExceptionHandler({PrecoInvalidoException.class, CodigoBarrasInvalidoException.class,
+    @ExceptionHandler({PrecoInvalidoException.class, QuantidadeInvalidaException.class,
+            EstoqueLimiteExcedidoException.class, CodigoBarrasInvalidoException.class,
             IllegalArgumentException.class, ConstraintViolationException.class,
             MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
     ResponseEntity<ApiErrorResponse> handleBadRequest(Exception exception, HttpServletRequest request) {

@@ -20,6 +20,23 @@ import { isValidProductCode } from '../../../../shared/utils/product-code.util';
 import { ScannerFrameComponent } from '../../components/scanner-frame/scanner-frame.component';
 import { BarcodeScannerService, ScannerPermissionDeniedError } from '../../data-access/barcode-scanner.service';
 
+export type ScannerMode = 'consulta' | 'alteracao' | 'entrada';
+
+const SCANNER_DESTINATIONS: Readonly<Record<ScannerMode, string>> = {
+  consulta: '/consulta-estoque',
+  alteracao: '/produto',
+  entrada: '/entrada-estoque'
+};
+
+const SCANNER_TITLES: Readonly<Record<ScannerMode, string>> = {
+  consulta: 'CONSULTA DE ESTOQUE',
+  alteracao: 'ALTERAÇÃO DE PREÇO',
+  entrada: 'ENTRADA NO ESTOQUE'
+};
+
+const scannerModeFrom = (value: string | null): ScannerMode =>
+  value === 'alteracao' || value === 'entrada' ? value : 'consulta';
+
 @Component({
   selector: 'app-scanner-page',
   standalone: true,
@@ -38,8 +55,9 @@ export class ScannerPage implements OnInit {
   private readonly notifications = inject(NotificationService);
 
   readonly scanning = signal(false);
+  readonly title = () => SCANNER_TITLES[this.mode];
   readonly manualModalOpen = signal(false);
-  readonly mode = this.route.snapshot.paramMap.get('modo') === 'alteracao' ? 'alteracao' : 'consulta';
+  readonly mode = scannerModeFrom(this.route.snapshot.paramMap.get('modo'));
   readonly manualCode = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required, Validators.maxLength(13), Validators.pattern(/^\d+$/)]
@@ -103,7 +121,6 @@ export class ScannerPage implements OnInit {
   }
 
   private navigateToProduct(code: string): Promise<boolean> {
-    const destination = this.mode === 'alteracao' ? '/produto' : '/consulta-estoque';
-    return this.router.navigate([destination, code]);
+    return this.router.navigate([SCANNER_DESTINATIONS[this.mode], code]);
   }
 }

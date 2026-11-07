@@ -14,6 +14,7 @@ import { AppError } from '../../../../core/http/app-error';
 import { AppHeaderComponent } from '../../../../shared/ui/app-header/app-header.component';
 import { PageStateComponent } from '../../../../shared/ui/page-state/page-state.component';
 import { isValidProductCode } from '../../../../shared/utils/product-code.util';
+import { maskPriceDigits } from '../../../../shared/utils/price-mask.util';
 import { priceValidator } from '../../../../shared/validators/price.validator';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ProdutoApiService } from '../../data-access/produto-api.service';
@@ -62,20 +63,7 @@ export class ProductPricePage implements OnInit {
   formatPrice(rawValue: string | null | undefined): void {
     if (this.saving()) return;
 
-    const digits = String(rawValue ?? '')
-      .replace(/\D/g, '')
-      .replace(/^0+/, '')
-      .slice(0, 10);
-
-    if (!digits) {
-      this.form.controls.novoPreco.setValue('', { emitEvent: false });
-      return;
-    }
-
-    const paddedDigits = digits.padStart(3, '0');
-    const integerPart = paddedDigits.slice(0, -2);
-    const decimalPart = paddedDigits.slice(-2);
-    this.form.controls.novoPreco.setValue(`${integerPart},${decimalPart}`, { emitEvent: false });
+    this.form.controls.novoPreco.setValue(maskPriceDigits(rawValue), { emitEvent: false });
   }
 
   save(): void {

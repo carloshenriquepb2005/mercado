@@ -4,6 +4,7 @@ export interface ProdutoResponse {
   descricao: string;
   unidade: string;
   precoVenda: number;
+  precoCusto: number | null;
   codigoNcm: string;
   estoqueAtual: number | null;
 }

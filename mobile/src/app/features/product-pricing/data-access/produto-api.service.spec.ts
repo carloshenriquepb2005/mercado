@@ -31,6 +31,7 @@ describe('ProdutoApiService', () => {
       descricao: 'Produto',
       unidade: 'UN',
       precoVenda: 9.5,
+      precoCusto: 6.9,
       codigoNcm: '12345678',
       estoqueAtual: 12.5
     });
@@ -42,6 +43,26 @@ describe('ProdutoApiService', () => {
     expect(request.request.method).toBe('PATCH');
     expect(request.request.body).toEqual({ novoPreco: 10.5 });
     request.flush(null, { status: 204, statusText: 'No Content' });
+  });
+
+  it('faz POST da entrada de estoque pelo ID, enviando a data de vencimento quando informada', () => {
+    const entrada = {
+      produtoId: 15, estoqueAnterior: 18.5, estoqueAtual: 31, precoCustoAnterior: 6.9, precoCustoAtual: 7.35
+    };
+    service.registrarEntradaEstoque(15, { quantidade: 12.5, precoCusto: 7.35, dataVencimento: '2027-03-15' })
+      .subscribe((response) => expect(response).toEqual(entrada));
+    const request = http.expectOne('http://servidor:8080/api/produtos/15/entrada-estoque');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({ quantidade: 12.5, precoCusto: 7.35, dataVencimento: '2027-03-15' });
+    request.flush(entrada);
+  });
+
+  it('omite dataVencimento do corpo quando não informada (nunca envia null ou vazio)', () => {
+    service.registrarEntradaEstoque(15, { quantidade: 1, precoCusto: 2, dataVencimento: '' }).subscribe();
+    const request = http.expectOne('http://servidor:8080/api/produtos/15/entrada-estoque');
+    expect(request.request.body).toEqual({ quantidade: 1, precoCusto: 2 });
+    expect('dataVencimento' in request.request.body).toBeFalse();
+    request.flush({ produtoId: 15, estoqueAnterior: 0, estoqueAtual: 1, precoCustoAnterior: null, precoCustoAtual: 2 });
   });
 
   it('propaga erro HTTP', () => {

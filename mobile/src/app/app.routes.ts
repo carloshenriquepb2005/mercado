@@ -51,6 +51,19 @@ export const routes: Routes = [
       import('./features/product-pricing/pages/pricing-success/pricing-success.page').then((m) => m.PricingSuccessPage)
   },
   {
+    path: 'entrada-estoque/:codigo',
+    canActivate: [configurationGuard, authGuard],
+    loadComponent: () =>
+      import('./features/stock-entry/pages/stock-entry/stock-entry.page').then((m) => m.StockEntryPage)
+  },
+  {
+    path: 'entrada-estoque-sucesso',
+    canActivate: [configurationGuard, authGuard],
+    loadComponent: () =>
+      import('./features/stock-entry/pages/stock-entry-success/stock-entry-success.page')
+        .then((m) => m.StockEntrySuccessPage)
+  },
+  {
     path: 'ajustes',
     canActivate: [configurationGuard, authGuard],
     loadComponent: () =>

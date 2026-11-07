@@ -3,10 +3,12 @@ package br.com.mercado.precificacao.adapter.output.persistence;
 import br.com.mercado.precificacao.adapter.output.persistence.mapper.ProdutoPersistenceMapper;
 import br.com.mercado.precificacao.adapter.output.persistence.repository.ProdutoJpaRepository;
 import br.com.mercado.precificacao.adapter.output.persistence.repository.ProdutoSimilarJpaRepository;
+import br.com.mercado.precificacao.core.model.NovaEntradaEstoque;
 import br.com.mercado.precificacao.core.model.Produto;
 import br.com.mercado.precificacao.port.output.AtualizarPrecoProdutoOutputPort;
 import br.com.mercado.precificacao.port.output.BuscarProdutoOutputPort;
 import br.com.mercado.precificacao.port.output.BuscarProdutoSimilarOutputPort;
+import br.com.mercado.precificacao.port.output.RegistrarEntradaEstoqueOutputPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,8 @@ import java.util.Optional;
 
 @Component
 public class ProdutoPersistenceAdapter
-        implements BuscarProdutoOutputPort, BuscarProdutoSimilarOutputPort, AtualizarPrecoProdutoOutputPort {
+        implements BuscarProdutoOutputPort, BuscarProdutoSimilarOutputPort, AtualizarPrecoProdutoOutputPort,
+        RegistrarEntradaEstoqueOutputPort {
     private static final Logger log = LoggerFactory.getLogger(ProdutoPersistenceAdapter.class);
 
     private final ProdutoJpaRepository produtoRepository;
@@ -58,6 +61,19 @@ public class ProdutoPersistenceAdapter
         if (linhasAtualizadas > 0) {
             log.info("Preço atualizado para o produto id={}", produtoId);
         }
+        return linhasAtualizadas > 0;
+    }
+
+    @Override
+    @Transactional
+    public boolean registrarEntrada(Long produtoId, NovaEntradaEstoque entrada) {
+        int id = Math.toIntExact(produtoId);
+        int linhasAtualizadas = entrada.dataVencimento() == null
+                ? produtoRepository.registrarEntradaEstoque(id, entrada.quantidade(), entrada.precoCusto(),
+                        entrada.dataAtualizacao(), entrada.limiteEstoque())
+                : produtoRepository.registrarEntradaEstoqueComVencimento(id, entrada.quantidade(),
+                        entrada.precoCusto(), entrada.dataAtualizacao(), entrada.dataVencimento(),
+                        entrada.limiteEstoque());
         return linhasAtualizadas > 0;
     }
 }

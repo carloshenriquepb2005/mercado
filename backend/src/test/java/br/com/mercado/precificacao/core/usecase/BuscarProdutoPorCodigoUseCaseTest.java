@@ -94,7 +94,7 @@ class BuscarProdutoPorCodigoUseCaseTest {
     }
 
     private static Produto produto() {
-        return new Produto(1L, "001234", "Produto", "UN", new BigDecimal("9.50"), "12345678",
+        return new Produto(1L, "001234", "Produto", "UN", new BigDecimal("9.50"), new BigDecimal("6.90"), "12345678",
                 new BigDecimal("10.000"));
     }
 }

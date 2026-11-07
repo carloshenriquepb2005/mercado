@@ -1,0 +1,48 @@
+<app-header />
+
+<ion-content class="page-content">
+  <main class="success-shell">
+    <div class="success-icon" aria-hidden="true">✓<span></span></div>
+    <section class="success-copy" aria-live="polite">
+      <h1>Entrada registrada com sucesso!</h1>
+      <p>O estoque e o preço de custo já estão atualizados no sistema.</p>
+    </section>
+
+    <div class="summary-wrapper">
+      @if (success.data(); as data) {
+        <section class="summary-card">
+          <div class="product-row">
+            <app-barcode-symbol size="small" />
+            <div><h2>{{ data.description }}</h2><p>Cód: {{ data.barcode }}</p></div>
+          </div>
+          <div class="changes">
+            <div>
+              <small>Estoque anterior</small>
+              <span>{{ data.previousStock }} {{ data.unit }}</span>
+            </div>
+            <div>
+              <small>Estoque atual</small>
+              <strong>{{ data.currentStock }} {{ data.unit }}</strong>
+            </div>
+            <div>
+              <small>Custo anterior</small>
+              <span>@if (data.previousCost !== null) { {{ data.previousCost | brlCurrency }} } @else { — }</span>
+            </div>
+            <div>
+              <small>Novo custo</small>
+              <strong>{{ data.currentCost | brlCurrency }}</strong>
+            </div>
+          </div>
+        </section>
+      } @else {
+        <section class="empty-summary"><p>A entrada foi concluída.</p></section>
+      }
+    </div>
+
+    <section class="success-actions">
+      <button class="primary-button" type="button" (click)="newEntry()">Registrar outra entrada</button>
+      <button class="outline-button" type="button" (click)="goHome()">Voltar para Home</button>
+    </section>
+  </main>
+  <app-bottom-navigation active="scanner" />
+</ion-content>

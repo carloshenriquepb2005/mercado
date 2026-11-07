@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { IonContent, IonIcon, Platform } from '@ionic/angular/standalone';
 import type { ViewDidEnter, ViewWillLeave } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { barcodeOutline, calculatorOutline, cubeOutline, logOut, pricetagOutline, settingsOutline } from 'ionicons/icons';
+import {
+  barcodeOutline, calculatorOutline, cubeOutline, downloadOutline, logOut, pricetagOutline, settingsOutline
+} from 'ionicons/icons';
 import type { Subscription } from 'rxjs';
 import { AuthSessionService } from '../../../../core/auth/auth-session.service';
 import { ConnectivityService } from '../../../../core/connectivity/connectivity.service';
@@ -33,7 +35,7 @@ export class HomePage implements OnInit, ViewDidEnter, ViewWillLeave {
   private backButtonSubscription: Subscription | null = null;
 
   constructor() {
-    addIcons({ barcodeOutline, calculatorOutline, cubeOutline, logOut, pricetagOutline, settingsOutline });
+    addIcons({ barcodeOutline, calculatorOutline, cubeOutline, downloadOutline, logOut, pricetagOutline, settingsOutline });
   }
 
   ngOnInit(): void {

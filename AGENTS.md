@@ -2,7 +2,7 @@
 
 - Leia `especificacao-codex-app-precificacao.md` antes de alterar o projeto.
 - Não altere o schema legado e não adicione migrations.
-- A única escrita permitida no legado é `produtos.PRECO_UNITARIO`, sempre pelo `ID`.
+- As únicas escritas permitidas no legado são, sempre pelo `ID` de `produtos`: `PRECO_UNITARIO` (alteração de preço) e `ESTOQUE_ATUAL` + `PRECO_CUSTO` + `DATA_ATUALIZACAO` e, somente quando o usuário informar, `DATA_VENCIMENTO` (entrada no estoque, seção 15 da especificação). Não utilize outras colunas sem autorização expressa.
 - Não utilize o banco real em testes.
 - Preserve a arquitetura hexagonal moderada e mantenha domínio/aplicação sem Spring/JPA.
 - Controllers devem possuir classe de swagger individuais.
